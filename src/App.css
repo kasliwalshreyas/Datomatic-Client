@@ -1,0 +1,4 @@
+.prescriptionOutputMainView::-webkit-scrollbar{
+  display: none !important;
+
+}
