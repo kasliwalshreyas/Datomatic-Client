@@ -270,7 +270,7 @@ const PatientInfo = ({ state, logoutHandler }) => {
     return (
         <>
             <Flex>
-                <Navbar sx={{ height: '80vh' }} width={{ sm: 300 }} p="md">
+                <Navbar sx={{ height: '85vh' }} width={{ sm: 300 }} p="md">
                     <Navbar.Section grow>
                         <Group className={classes.header} position="apart">
                             <Title order={1}>Shreyas Kasliwal</Title>
