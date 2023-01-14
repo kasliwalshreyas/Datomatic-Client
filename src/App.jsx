@@ -195,7 +195,7 @@ const App = () => {
               }
             />
             <Route
-              path="patient/:patientId"
+              path="patient/:phoneNumber"
               exact
               element={
                 <HomeWrapper state={state} logoutHandler={logoutHandler}>

@@ -52,13 +52,11 @@ const AppointmentTable = ({ state }) => {
       console.log(resData.message || "Fetching prescription failed.");
       return;
     }
-
     setPrescriptions(resData.prescriptions);
   };
 
   useEffect(() => {
     getPrescriptions();
-    console.log(prescriptions);
   }, []);
 
   return (
@@ -116,7 +114,7 @@ const AppointmentTable = ({ state }) => {
                 <Td>
                   <Button
                     onClick={() => {
-                      redirectToInfo(prescription._id);
+                      redirectToInfo(prescription.patientPhoneNumber);
                     }}
                     style={{ backgroundColor: "#805bd4" }}
                   >

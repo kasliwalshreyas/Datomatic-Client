@@ -78,14 +78,16 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
         innercontainer1: {
             height: '75vh',
-            width: '30vw',
+            width: '28vw',
             backgroundColor: "white",
-            marginRight: '10px',
-            borderRadius: "20px",
-            borderColor: "#E2E8F0",
-            borderWidth: "2px",
+            marginRight: '30px',
+            borderRadius: "5px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
             flexDirection: 'column',
             padding: '10px',
+            boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
+            box-shadow: ;
         },
 
         profilephotocontainer: {
@@ -94,10 +96,13 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
         },
         profiledetailscontainer: {
-            borderRadius: "10px",
-            borderColor: "#E2E8F0",
-            borderWidth: "2px",
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            marginTop:"20px",
+            borderTop:"1px solid gray",
             padding: '15px',
+            paddingTop:"30px",
             height: '80%',
         },
         profileimage: {
@@ -154,27 +159,31 @@ const useStyles = createStyles((theme, _params, getRef) => {
             height: '75vh',
             width: '44vw',
             backgroundColor: "white",
-            borderRadius: "20px",
-            borderColor: "#E2E8F0",
-            borderWidth: "2px",
+            borderRadius: "5px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
             padding: "10px",
             flexDirection: "column",
+            boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
         },
         medicationhistorytext: {
-            borderRadius: "10px",
-            borderColor: "#E2E8F0",
-            borderWidth: "2px",
-            padding: "10px",
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+
+            padding: "5px",
             margin: "10px",
             width: "96%",
 
         },
         medicationhistorycontainer: {
-            borderRadius: "10px",
-            borderColor: "#E2E8F0",
-            borderWidth: "2px",
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            borderTop:"1px solid gray",
             padding: "10px",
             margin: "10px",
+            paddingTop:"30px",
             width: "96%",
             height: "80%",
             flexDirection: "column",
@@ -228,7 +237,7 @@ const data = [
 
 
 const PatientInfo = ({ state, logoutHandler }) => {
-    const { patientId } = useParams();
+    const { phoneNumber } = useParams();
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Profile');
 
@@ -409,7 +418,7 @@ const PatientInfo = ({ state, logoutHandler }) => {
                                 </Flex>
                             </Flex>
                         </div>}
-                    {active === 'Prescriptions' && <PrescriptionAccordion state={state} patientId={patientId} />}
+                    {active === 'Prescriptions' && <PrescriptionAccordion state={state} phoneNumber={phoneNumber} />}
                     {active === 'Reports' && <ReportTable data={mockData} />}
                 </Box>
 

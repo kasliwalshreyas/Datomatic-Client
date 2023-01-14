@@ -5,17 +5,15 @@ import Prescription from '../../components/Prescription/Prescription';
 
 const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
-const PrescriptionAccordion = ({ state, patientId }) => {
+const PrescriptionAccordion = ({ state, phoneNumber }) => {
     const [prescriptions, setPrescriptions] = useState([]);
-
-    console.log(patientId);
 
     useEffect(() => {
         getPrescriptions();
     }, []);
 
     const getPrescriptions = async () => {
-        const res = await fetch(`${BACKEND_URL}/doctor/patient-prescriptions/${patientId}`, {
+        const res = await fetch(`${BACKEND_URL}/doctor/patient-prescriptions/${phoneNumber}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -47,13 +45,13 @@ const PrescriptionAccordion = ({ state, patientId }) => {
         <Accordion variant="separated">
             {prescriptions.map((prescription) => {
                 return (
-                    <Accordion.Item value="customization" sx={{ width: '100%' }}>
+                    <Accordion.Item key={prescription._id} value={prescription._id} sx={{ width: '100%' }}>
                         <Accordion.Control>
                             <IconPrescription size={20} />
                             {prescription.date}
                         </Accordion.Control>
                         <Accordion.Panel>
-                            <Prescription prescription={prescription} />
+                            <Prescription prescriptionId={prescription._id} state={state}/>
                         </Accordion.Panel>
                     </Accordion.Item>
                 );
