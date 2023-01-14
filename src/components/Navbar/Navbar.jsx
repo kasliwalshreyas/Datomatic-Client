@@ -33,13 +33,11 @@ import { useNavigate } from "react-router-dom";
 const Navbar = ({ state, logoutHandler }) => {
   const { isOpen, onToggle } = useDisclosure();
 
-
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = `/viewprofile`; 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/viewprofile`;
     navigate(path);
-  }
-
+  };
 
   return (
     <Box>
@@ -72,31 +70,32 @@ const Navbar = ({ state, logoutHandler }) => {
           <Logo width="32px" height="32px" justify={"center"} />
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
+            <DesktopNav state={state} logoutHandler={logoutHandler} />
           </Flex>
         </Flex>
 
         <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'md'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-            <MenuItem  onClick={routeChange}> View Profile </MenuItem>
-                <MenuItem>Settings</MenuItem>
-                <MenuDivider />
-                <MenuItem  onClick={logoutHandler}>Logout</MenuItem>
-              </MenuList>
-            </Menu>
+          <MenuButton
+            as={Button}
+            rounded={"full"}
+            variant={"link"}
+            cursor={"pointer"}
+            minW={0}
+          >
+            <Avatar
+              size={"md"}
+              src={
+                "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+              }
+            />
+          </MenuButton>
+          <MenuList>
+            <MenuItem onClick={routeChange}> View Profile </MenuItem>
+            <MenuItem>Settings</MenuItem>
+            <MenuDivider />
+            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+          </MenuList>
+        </Menu>
         {/* <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
@@ -116,57 +115,136 @@ const Navbar = ({ state, logoutHandler }) => {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav state={state} logoutHandler={logoutHandler} />
       </Collapse>
     </Box>
   );
 };
 
-const DesktopNav = () => {
+const DesktopNav = ({ state, logoutHandler }) => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
     <Stack direction={"row"} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? "#"}
-                fontSize={"sm"}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: "none",
-                  color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
+      {state.userType.trim() === "patient" &&
+        PATIENT_NAV_ITEMS.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={"hover"} placement={"bottom-start"}>
+              <PopoverTrigger>
+                <Link
+                  p={4}
+                  href={navItem.href ?? "#"}
+                  fontSize={"sm"}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: "none",
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
 
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))}
+      {state.userType.trim() === "doctor" &&
+        DOCTOR_NAV_ITEMS.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={"hover"} placement={"bottom-start"}>
+              <PopoverTrigger>
+                <Link
+                  p={4}
+                  href={navItem.href ?? "#"}
+                  fontSize={"sm"}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: "none",
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
+
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))}
+      {state.userType.trim() === "pharmacy" &&
+        PHARMACY_NAV_ITEMS.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={"hover"} placement={"bottom-start"}>
+              <PopoverTrigger>
+                <Link
+                  p={4}
+                  href={navItem.href ?? "#"}
+                  fontSize={"sm"}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: "none",
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
+
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={"xl"}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={"xl"}
+                  minW={"sm"}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))}
     </Stack>
   );
 };
@@ -208,16 +286,25 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ state, logoutHandler }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
+      {state.userType.trim() === "patient" &&
+        PATIENT_NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        ))}
+      {state.userType.trim() === "doctor" &&
+        DOCTOR_NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        ))}
+      {state.userType.trim() === "pharmacy" &&
+        PHARMACY_NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        ))}
     </Stack>
   );
 };
@@ -275,52 +362,29 @@ const MobileNavItem = ({ label, children, href }) => {
   );
 };
 
-const NAV_ITEMS = [
+const PATIENT_NAV_ITEMS = [
   {
-    label: "Your prescriptions",
-    href: "/home",
-  }
+    label: "Prescriptions",
+    href: "/patient/home",
+  },
 ];
 
-const DUMMY_NAV_ITEMS = [
+const DOCTOR_NAV_ITEMS = [
   {
-    label: "Inspiration",
-    children: [
-      {
-        label: "Explore Design Work",
-        subLabel: "Trending Design to inspire you",
-        href: "#",
-      },
-      {
-        label: "New & Noteworthy",
-        subLabel: "Up-and-coming Designers",
-        href: "#",
-      },
-    ],
+    label: "Home",
+    href: "/doctor/home",
+  },
+];
+
+const PHARMACY_NAV_ITEMS = [
+  {
+    label: "Shared Prescriptions",
+    href: "/pharmacy/home",
   },
   {
-    label: "Find Work",
-    children: [
-      {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
-        href: "#",
-      },
-      {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
-        href: "#",
-      },
-    ],
-  },
-  {
-    label: "Learn Design",
-    href: "#",
-  },
-  {
-    label: "Hire Designers",
-    href: "#",
-  },
+    label: "Share Code",
+    href: "/pharmacy/scan",
+  }
 ];
 
 export default Navbar;

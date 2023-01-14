@@ -16,11 +16,11 @@ export const theme = extendTheme(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <ChakraProvider theme={theme}>
         <App />
       </ChakraProvider>
     </MantineProvider>
-  </React.StrictMode >
+  // </React.StrictMode >
 );

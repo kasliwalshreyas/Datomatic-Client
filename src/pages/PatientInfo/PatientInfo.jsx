@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { createStyles, Navbar, Group, Code, Title, Box, Flex } from '@mantine/core';
+import { createStyles, Navbar, Group, Code, Title, Box, Flex , Table, ScrollArea } from '@mantine/core';
 import {
     IconUser,
     IconPrescription,
@@ -64,8 +64,117 @@ const useStyles = createStyles((theme, _params, getRef) => {
         rightView: {
             display: 'flex',
         },
+        
+        outercontainer: {
+            padding:'20px',
+            justifyContent:'space-between',
+        },
+        innercontainer1: {
+            height:'75vh',
+            width:'30vw',
+            backgroundColor:"white",
+            marginRight:'10px',
+            borderRadius: "20px",
+            borderColor: "#E2E8F0",
+            borderWidth: "2px",
+            flexDirection: 'column',
+            padding:'10px',
+        },
+        
+        profilephotocontainer:{
+            // padding:'10px',
+            
+
+        },
+        profiledetailscontainer:{
+            borderRadius: "10px",
+            borderColor: "#E2E8F0",
+            borderWidth: "2px",
+            padding:'15px',
+            height:'80%',
+        },
+        profileimage:{
+            
+            width: '150px',
+            height: '150px',
+            borderRadius: '50%',
+            objectFit: 'cover',
+            backgroundColor:"black",
+            margin:'10px',
+        },
+        profileName:{
+            width:'50%',
+            // borderRadius: "20px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            alignItems:"center",
+            justifyContent:"center",
+            flexDirection:"column",
+        },
+        BoldText:{
+            fontWeight:'700',
+        },
+
+        LightText:{
+            color:'gray',
+            fontWeight:'400',
+        },
+        detailsnamecontainer:{
+            width:'45%',
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            marginRight:"5%",
+            flexDirection:"column",
+        },
+        detailsvaluecontainer:{
+            width:'45%',
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            marginRight:"5%",
+            flexDirection:"column",
+        },
+        detailnamebox:{
+            // borderRadius: "1px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "1px",
+            margin:'3px',
+            height:"15%",
+            justifyContent:'space-around',
+        },
+        innercontainer2: {
+            height:'75vh',
+            width:'44vw',
+            backgroundColor:"white",
+            borderRadius: "20px",
+            borderColor: "#E2E8F0",
+            borderWidth: "2px",
+            padding:"10px", 
+            flexDirection:"column",
+        },
+        medicationhistorytext:{
+            borderRadius: "10px",
+            borderColor: "#E2E8F0",
+            borderWidth: "2px",
+            padding:"10px",
+            margin:"10px",
+            width:"100%",
+            
+        },
+        medicationhistorycontainer:{
+            borderRadius: "10px",
+            borderColor: "#E2E8F0",
+            borderWidth: "2px",
+            padding:"10px",
+            margin:"10px",   
+            
+            width:"100%",
+            height:"80%",
+        },
 
 
+        
 
     };
 });
@@ -180,6 +289,9 @@ const PatientInfo = () => {
         }
     ];
 
+
+    
+
     return (
 
         <Flex>
@@ -195,7 +307,79 @@ const PatientInfo = () => {
             </Navbar>
 
             <Box height={'100%'} width={'100%'} >
-                {active === 'Profile' && <div>Profile</div>}
+                {active === 'Profile' &&
+                    <div>
+                        <Flex className={classes.outercontainer}>
+                            <Flex className={classes.innercontainer1}>
+                                <Flex className={classes.profilephotocontainer}>
+                                    <Box className={classes.profileimage}></Box>
+                                    <Flex className={ classes.profileName}>
+                                        <Title order={4} className={classes.BoldText}>Shreyas Kasliwal</Title>
+                                        <Title order={6} className={classes.LightText}>Male | 26 </Title>
+                                        
+                                    </Flex>
+                                </Flex>
+                                <Flex className={classes.profiledetailscontainer}>
+                                    {/* <Title order={4} className={classes.BoldText}>Personal Info</Title> */}
+                                    <Flex className={classes.detailsnamecontainer}>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Date of Birth</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Mobile No.</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Email Id</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Height</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Address</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Nationality</Title> 
+                                        </Box>
+                                        {/* <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.BoldText}>Doctor</Title> 
+                                        </Box> */}
+                                    </Flex>
+                                    <Flex className={classes.detailsvaluecontainer}>
+                                    <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>20/10/2004</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>9637582165</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>Vital@gmail.com</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>162cm</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>Bombay Bandra House, mumbai</Title> 
+                                        </Box>
+                                        <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>Indian</Title> 
+                                        </Box>
+                                        {/* <Box className={classes.detailnamebox}>
+                                        <Title order={6} className={classes.LightText}>Dr.Shobhit Gupta</Title> 
+                                        </Box> */}
+                                    </Flex>
+                                </Flex>
+                            </Flex>
+                            <Flex className={classes.innercontainer2}>
+                                <Title order={2} className={classes.medicationhistorytext}> Medication History</Title>
+                                <Flex className={classes.medicationhistorycontainer}>
+
+                                </Flex>
+                            </Flex>
+                        </Flex>
+                    
+                    
+                    
+                    </div>}
                 {active === 'Prescriptions' && <PrescriptionAccordion />}
                 {active === 'Reports' && <ReportTable data={mockData} />}
             </Box>

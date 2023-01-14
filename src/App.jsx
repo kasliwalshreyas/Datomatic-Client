@@ -13,9 +13,9 @@ import { AddIcon } from "@chakra-ui/icons";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/Signup";
 import Navbar from "./components/Navbar/Navbar";
-import CreatePrescription from "./pages/Home/CreatePrescription";
-import Home from "./pages/Home/Home";
-import ScanPage from "./pages/pharmacy/ScanPage";
+import CreatePrescription from "./pages/Doctor/CreatePrescription";
+import DoctorHome from "./pages/Doctor/DoctorHome";
+import ScanPage from "./pages/Pharmacy/ScanPage";
 import Viewprofile from "./pages/ProfilePage/Viewprofile";
 import "./App.css";
 
@@ -26,6 +26,8 @@ import PharmacyRoutes from "./components/Navigation/PharmacyRoutes";
 import DefaultRoutes from "./components/Navigation/DefualtRoutes";
 import HomeWrapper from "./components/Layout/HomeWrapper";
 import PatientInfo from "./pages/PatientInfo/PatientInfo";
+import PharmacyHome from "./pages/Pharmacy/PharmacyHome";
+import PatientHome from "./pages/Patient/PatientHome";
 
 const App = () => {
   const [state, setState] = useState({
@@ -39,7 +41,6 @@ const App = () => {
   });
 
   useEffect(() => {
-
     const token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     const userType = localStorage.getItem("userType");
@@ -132,11 +133,9 @@ const App = () => {
             />
           }
         >
-
           <Route path="/doctor" element={<Navigate to={"doctor/home"} />} />
           <Route path="/patient" element={<Navigate to={"patient/home"} />} />
           <Route path="/pharmacy" element={<Navigate to={"pharmacy/home"} />} />
-
 
           <Route
             path="patient"
@@ -148,10 +147,21 @@ const App = () => {
               />
             }
           >
-
+            <Route
+              path="home"
+              exact
+              element={
+                <HomeWrapper state={state} logoutHandler={logoutHandler}>
+                  <PatientHome
+                    state={state}
+                    setState={setState}
+                    setAutoLogout={setAutoLogout}
+                  />
+                </HomeWrapper>
+              }
+            />
             <Route path="*" element={<Navigate to={"home"} />} />
           </Route>
-
 
           <Route
             path="doctor"
@@ -168,7 +178,7 @@ const App = () => {
               exact
               element={
                 <HomeWrapper state={state} logoutHandler={logoutHandler}>
-                  <Home
+                  <DoctorHome
                     state={state}
                     setState={setState}
                     setAutoLogout={setAutoLogout}
@@ -199,8 +209,6 @@ const App = () => {
             <Route path="*" element={<Navigate to={"home"} />} />
           </Route>
 
-
-
           <Route
             path="pharmacy"
             exact
@@ -216,6 +224,11 @@ const App = () => {
               exact
               element={
                 <HomeWrapper state={state} logoutHandler={logoutHandler}>
+                  <PharmacyHome
+                    state={state}
+                    setState={setState}
+                    setAutoLogout={setAutoLogout}
+                  />
                 </HomeWrapper>
               }
             />
@@ -223,39 +236,18 @@ const App = () => {
               path="scan"
               exact
               element={
-                <ScanPage state={state}
-                  setState={setState}
-                  setAutoLogout={setAutoLogout} />
+                <HomeWrapper state={state} logoutHandler={logoutHandler}>
+                  <ScanPage
+                    state={state}
+                    setState={setState}
+                    setAutoLogout={setAutoLogout}
+                  />
+                </HomeWrapper>
               }
             />
             <Route path="*" element={<Navigate to={"home"} />} />
           </Route>
 
-
-          <Route
-            path="/home"
-            exact
-            element={
-              <HomeWrapper state={state} logoutHandler={logoutHandler}>
-                <Home
-                  state={state}
-                  setState={setState}
-                  setAutoLogout={setAutoLogout}
-                />
-              </HomeWrapper>
-            }
-          />
-          <Route
-            path="/create-prescription"
-            exact
-            element={
-              <CreatePrescription
-                state={state}
-                setState={setState}
-                setAutoLogout={setAutoLogout}
-              />
-            }
-          />
           <Route
             path="/viewprofile"
             exact
@@ -271,10 +263,13 @@ const App = () => {
           />
           <Route
             path="*"
-            element={<DefaultRoutes
-              userType={state.userType}
-              AuthLoading={state.authLoading}
-            />} />
+            element={
+              <DefaultRoutes
+                userType={state.userType}
+                AuthLoading={state.authLoading}
+              />
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to={"/login"} />} />
       </Routes>

@@ -41,7 +41,7 @@ const CreatePrescription = ({ state, setState, setAutoLogout }) => {
   const submitButtonHandler = async (event) => {
     event.preventDefault();
 
-    const res = await fetch(`${BACKEND_URL}/data/save-prescription`, {
+    const res = await fetch(`${BACKEND_URL}/doctor/save-prescription`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
