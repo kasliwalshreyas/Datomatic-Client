@@ -1,33 +1,28 @@
 import { createStyles, Text, Title, TextInput, Button, Image } from '@mantine/core';
-import Logo from './components/Image/Logo.jsx';
+import { Logo } from '../../components/Image/Logo';
+
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: theme.spacing.xl * 2,
     borderRadius: theme.radius.md,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-    border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[3]
-    }`,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : '#f7fafc',
+
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       flexDirection: 'column-reverse',
       padding: theme.spacing.xl,
     },
+    paddingTop: theme.spacing.xl * 1,
+    paddingBottom: theme.spacing.xl * 0,
+
   },
-
-  image: {
-    maxWidth: '40%',
-
-    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      maxWidth: '100%',
-    },
-  },
-
   body: {
     paddingRight: theme.spacing.xl * 4,
+    paddingLeft: theme.spacing.xl * 1,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       paddingRight: 0,
@@ -39,7 +34,6 @@ const useStyles = createStyles((theme) => ({
     color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     lineHeight: 1,
-    marginBottom: theme.spacing.md,
   },
 
   controls: {
@@ -65,32 +59,23 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-const QuestionnaireHeader  = () => {
-    const { classes } = useStyles();
-    return (
-      <div className={classes.wrapper}>
-        <div className={classes.body}>
-          <Title className={classes.title}>Wait a minute...</Title>
-          <Text weight={500} size="lg" mb={5}>
-            Subscribe to our newsletter!
-          </Text>
-          <Text size="sm" color="dimmed">
-            You will never miss important product updates, latest news and community QA sessions. Our
-            newsletter is once a week, every Sunday.
-          </Text>
-  
-          <div className={classes.controls}>
-            <TextInput
-              placeholder="Your email"
-              classNames={{ input: classes.input, root: classes.inputWrapper }}
-            />
-            <Button className={classes.control}>Subscribe</Button>
-          </div>
-        </div>
-        
-        <Logo width="32px" height="32px" justify={"center"} />
+const QuestionnaireHeader = () => {
+  const { classes } = useStyles();
+  return (
+
+    <div className={classes.wrapper}>
+      <Logo width="5%" height="5%" justify={"center"} />
+      <div className={classes.body}>
+        <Title className={classes.title}>Medical History Form</Title>
+        {/* <Text weight={500} size="lg" mb={5}>
+          Patient Personal Information
+        </Text> */}
+        <Text size="sm" color="dimmed">
+          Building better health with accurate medical history records
+        </Text>
       </div>
-    );
+    </div>
+  );
 }
- 
+
 export default QuestionnaireHeader;

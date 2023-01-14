@@ -246,7 +246,7 @@ const Viewprofile = ({ state, setState, setAutoLogout }) => {
         <Flex size={'100vw'} w={'50%'} className={classes.borderFlex}>
           <Flex className={classes.borderFlex1} w={'30%'} >
             {/* <Card withBorder radius="md" className={classes.card}> */}
-            <Avatar size={120} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" radius="xl" size="xl" />
+            <Avatar size={120} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
             {/* </Card> */}
             <Title order={3} mt={'15px'} mb={'20px'}>Shreyas Kasliwal</Title>
             <Button fullWidth className={classes.editButton}>Edit Profile</Button>

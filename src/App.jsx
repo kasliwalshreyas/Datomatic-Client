@@ -195,11 +195,11 @@ const App = () => {
               }
             />
             <Route
-              path="patient/:id"
+              path="patient/:patientId"
               exact
               element={
                 <HomeWrapper state={state} logoutHandler={logoutHandler}>
-                  <PatientInfo />
+                  <PatientInfo state={state} logoutHandler={logoutHandler}/>
                 </HomeWrapper>
               }
             />
