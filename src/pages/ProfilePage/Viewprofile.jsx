@@ -26,10 +26,11 @@ const useStyles = createStyles((theme) => ({
   borderFlex: {
     background: 'white',
     padding: '10px 20px 20px 20px',
-    borderRadius: "20px",
-    borderColor: "#E2E8F0",
-    borderWidth: "2px",
-    boxShadow: "rgb(112 144 176 / 8%) 45px 76px 113px 7px",
+    borderRadius: "5px",
+    // borderColor: "#E2E8F0",
+    // borderWidth: "2px",
+    boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
+
     margin: "10px"
   },
   borderFlex1: {
@@ -48,8 +49,9 @@ const useStyles = createStyles((theme) => ({
 
   },
   borderFlex2: {
-    border: '1px solid #e0e0e0',
-    borderRadius: '5px',
+    // border: '1px solid #e0e0e0',
+    // borderRadius: '5px',
+    borderLeft: '1px solid gray',
     padding: '10px',
     margin: '10px',
     width: '50%',
@@ -57,6 +59,7 @@ const useStyles = createStyles((theme) => ({
     // backgroundColor: 'lightblue',
     flexDirection: 'row',
     justifyContent: 'space-around',
+
 
 
   },

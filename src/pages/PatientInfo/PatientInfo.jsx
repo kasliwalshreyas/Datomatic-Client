@@ -87,7 +87,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
             flexDirection: 'column',
             padding: '10px',
             boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
-            box-shadow: ;
         },
 
         profilephotocontainer: {
@@ -170,7 +169,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
             // borderRadius: "10px",
             // borderColor: "#E2E8F0",
             // borderWidth: "2px",
-
             padding: "5px",
             margin: "10px",
             width: "96%",
