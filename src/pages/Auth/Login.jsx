@@ -114,7 +114,7 @@ export const Login = ({ state, setState, setAutoLogout }) => {
       setAutoLogout(remainingMilliseconds);
     }
 
-    navigate("/home");
+    navigate("/");
   };
 
   const signUpLinkHandler = () => {

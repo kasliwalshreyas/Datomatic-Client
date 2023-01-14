@@ -24,7 +24,7 @@ const HomeWrapper = ({ state,logoutHandler,children }) => {
           bottom={"5%"}
           right={"2%"}
         >
-          <Link as={Link} to="/create-prescription">
+          <Link as={Link} to="/doctor/create-prescription">
             <Button leftIcon={<AddIcon />} variant="primary">
               Create Prescription
             </Button>

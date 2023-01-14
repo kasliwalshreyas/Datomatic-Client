@@ -29,9 +29,17 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { Logo } from "../Image/Logo";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = ({ state, logoutHandler }) => {
   const { isOpen, onToggle } = useDisclosure();
+
+
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/viewprofile`; 
+    navigate(path);
+  }
+
 
   return (
     <Box>
@@ -83,7 +91,7 @@ const Navbar = ({ state, logoutHandler }) => {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>View Profile  </MenuItem>
+            <MenuItem  onClick={routeChange}> View Profile </MenuItem>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem  onClick={logoutHandler}>Logout</MenuItem>
