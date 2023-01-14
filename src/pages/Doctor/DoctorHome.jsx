@@ -52,6 +52,7 @@ const DoctorHome = ({ state, setState, setAutoLogout }) => {
   useEffect(() => {
     getName();
     getLastMonthPrescriptions();
+    getPatientCount();
   }, []);
 
   const getName = async () => {
@@ -195,7 +196,31 @@ const DoctorHome = ({ state, setState, setAutoLogout }) => {
             </HStack>
           </Box>
         </Stat>
-        <StatsCard />
+        <Stat
+          display={"flex"}
+          flexDirection={"column"}
+          width={"100%"}
+          minWidth={"300px"}
+          overflowWrap={"break-word"}
+          backgroundColor={"rgb(255, 255, 255)"}
+          borderRadius={"20px"}
+          borderColor={"#E2E8F0"}
+          borderWidth={"1px"}
+          margin={"10px"}
+          padding={"15px 20px"}
+        >
+          <Box>
+            <HStack spacing={"24px"}>
+              <Box width={"full"}>
+                <StatLabel>Patient Count</StatLabel>
+                <StatNumber>{patientCount}</StatNumber>
+                <StatHelpText>
+                  unique patients
+                </StatHelpText>
+              </Box>
+            </HStack>
+          </Box>
+        </Stat>
         <StatsCard />
         <StatsCard />
       </Flex>

@@ -159,7 +159,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
             borderWidth: "2px",
             padding:"10px",
             margin:"10px",
-            width:"100%",
+            width:"96%",
             
         },
         medicationhistorycontainer:{
@@ -168,9 +168,23 @@ const useStyles = createStyles((theme, _params, getRef) => {
             borderWidth: "2px",
             padding:"10px",
             margin:"10px",   
-            
-            width:"100%",
+            width:"96%",
             height:"80%",
+            flexDirection:"column",
+            justifyContent:"space-around",
+        },
+        mhtextdetailsname:{
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px", 
+            height:"10%",
+            
+        },
+        mhtextdetailsvalue:{
+            // borderRadius: "10px",
+            // borderColor: "#E2E8F0",
+            // borderWidth: "2px",
+            height:"10%",
         },
 
 
@@ -372,7 +386,42 @@ const PatientInfo = () => {
                             <Flex className={classes.innercontainer2}>
                                 <Title order={2} className={classes.medicationhistorytext}> Medication History</Title>
                                 <Flex className={classes.medicationhistorycontainer}>
-
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Diabetes</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>yes i am diabetic</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Asthma</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>No</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Heart Problems</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>No</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Migraine</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>yes</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Smoking</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>Chain Smoker</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsname}>
+                                        <Title order={4} className={classes.BoldText}>Drinking</Title>
+                                    </Box>
+                                    <Box className={classes.mhtextdetailsvalue}>
+                                        <Title order={5} className={classes.LightText}>Occasionally</Title>
+                                    </Box>
                                 </Flex>
                             </Flex>
                         </Flex>

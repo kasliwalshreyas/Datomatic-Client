@@ -10,27 +10,28 @@ import { chakra, Button, Stack } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import Navbar from "../Navbar/Navbar";
 
-const HomeWrapper = ({ state,logoutHandler,children }) => {
+const HomeWrapper = ({ state, logoutHandler, children }) => {
   return (
     <Fragment>
       <chakra.header>
         <Navbar state={state} logoutHandler={logoutHandler} />
+        {state.userType === "doctor" && (
+          <Stack
+            direction="row"
+            spacing={4}
+            position={"fixed"}
+            bottom={"5%"}
+            right={"2%"}
+            zIndex={100}
+          >
+            <Link as={Link} to="/doctor/create-prescription">
+              <Button leftIcon={<AddIcon />} variant="primary">
+                Create Prescription
+              </Button>
+            </Link>
+          </Stack>
+        )}
       </chakra.header>
-      {state.userType === "doctor" && (
-        <Stack
-          direction="row"
-          spacing={4}
-          position={"absolute"}
-          bottom={"5%"}
-          right={"2%"}
-        >
-          <Link as={Link} to="/doctor/create-prescription">
-            <Button leftIcon={<AddIcon />} variant="primary">
-              Create Prescription
-            </Button>
-          </Link>
-        </Stack>
-      )}
       <chakra.main>{children}</chakra.main>
       <chakra.footer></chakra.footer>
     </Fragment>

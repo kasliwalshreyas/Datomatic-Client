@@ -28,6 +28,7 @@ import HomeWrapper from "./components/Layout/HomeWrapper";
 import PatientInfo from "./pages/PatientInfo/PatientInfo";
 import PharmacyHome from "./pages/Pharmacy/PharmacyHome";
 import PatientHome from "./pages/Patient/PatientHome";
+import PatientQuestionnaire from "./pages/Patient/PatientQuestionnaire";
 
 const App = () => {
   const [state, setState] = useState({
@@ -160,6 +161,13 @@ const App = () => {
                 </HomeWrapper>
               }
             />
+            <Route
+              path="questionnaire"
+              exact
+              element={
+                <PatientQuestionnaire />
+              }
+              />
             <Route path="*" element={<Navigate to={"home"} />} />
           </Route>
 
@@ -195,6 +203,13 @@ const App = () => {
                 </HomeWrapper>
               }
             />
+            <Route
+              path="questionnaire"
+              exact
+              element={
+                <PatientQuestionnaire />
+              }
+              />
             <Route
               path="create-prescription"
               exact
