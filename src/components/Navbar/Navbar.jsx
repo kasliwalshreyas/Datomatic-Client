@@ -38,6 +38,10 @@ const Navbar = ({ state, logoutHandler }) => {
     let path = `/viewprofile`;
     navigate(path);
   };
+  const routeChange2 = () => {
+    let path = `/doctorprofilepage`;
+    navigate(path);
+  };
 
   return (
     <Box>
@@ -91,7 +95,7 @@ const Navbar = ({ state, logoutHandler }) => {
           </MenuButton>
           <MenuList>
             <MenuItem onClick={routeChange}> View Profile </MenuItem>
-            <MenuItem>Settings</MenuItem>
+            <MenuItem onClick={routeChange2}>Settings</MenuItem>
             <MenuDivider />
             <MenuItem onClick={logoutHandler}>Logout</MenuItem>
           </MenuList>

@@ -29,7 +29,8 @@ import PatientInfo from "./pages/PatientInfo/PatientInfo";
 import PharmacyHome from "./pages/Pharmacy/PharmacyHome";
 import PatientHome from "./pages/Patient/PatientHome";
 import PatientQuestionnaire from "./pages/Patient/PatientQuestionnaire";
-
+import DoctorQuestionnaire from "./pages/Doctor/DoctorQuestionnaire";
+import Doctorprofilepage from "./pages/ProfilePage/Doctorprofilepage"
 const App = () => {
   const [state, setState] = useState({
     isAuth: false,
@@ -165,9 +166,11 @@ const App = () => {
               path="questionnaire"
               exact
               element={
-                <PatientQuestionnaire />
+                <PatientQuestionnaire state={state}
+                  setState={setState}
+                  setAutoLogout={setAutoLogout} />
               }
-              />
+            />
             <Route path="*" element={<Navigate to={"home"} />} />
           </Route>
 
@@ -199,7 +202,7 @@ const App = () => {
               exact
               element={
                 <HomeWrapper state={state} logoutHandler={logoutHandler}>
-                  <PatientInfo state={state} logoutHandler={logoutHandler}/>
+                  <PatientInfo state={state} logoutHandler={logoutHandler} />
                 </HomeWrapper>
               }
             />
@@ -207,9 +210,11 @@ const App = () => {
               path="questionnaire"
               exact
               element={
-                <PatientQuestionnaire />
+                <DoctorQuestionnaire state={state}
+                  setState={setState}
+                  setAutoLogout={setAutoLogout} />
               }
-              />
+            />
             <Route
               path="create-prescription"
               exact
@@ -269,6 +274,19 @@ const App = () => {
             element={
               <HomeWrapper state={state} logoutHandler={logoutHandler}>
                 <Viewprofile
+                  state={state}
+                  setState={setState}
+                  setAutoLogout={setAutoLogout}
+                />
+              </HomeWrapper>
+            }
+          />
+           <Route
+            path="/doctorprofilepage"
+            exact
+            element={
+              <HomeWrapper state={state} logoutHandler={logoutHandler}>
+                <Doctorprofilepage
                   state={state}
                   setState={setState}
                   setAutoLogout={setAutoLogout}

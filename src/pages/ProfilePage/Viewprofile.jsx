@@ -2,7 +2,7 @@ import { Flex, Card, createStyles, Avatar, Box, Title, Button, Group, Paper, Tex
 import { IconDroplet, IconRuler3, IconWeight } from '@tabler/icons';
 import { useState } from 'react';
 import ProfileStatsCard from './ProfileStatsCard';
-
+import Extraprofiledetails from './Extraprofiledetails';
 
 
 const data = [
@@ -29,7 +29,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: "5px",
     // borderColor: "#E2E8F0",
     // borderWidth: "2px",
-    boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
+    boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px",
 
     margin: "10px"
   },
@@ -96,7 +96,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
     fontWeight: 700,
     color: theme.black,
-    marginTop: '7px',
+    // marginTop: '7px',
   },
   item: {
     display: 'flex',
@@ -235,6 +235,68 @@ const useStyles = createStyles((theme) => ({
     transform: 'rotate(-90deg)',
   },
 
+  Extraprofiledetailscontainer: {
+
+    padding: '10px 20px 20px 20px',
+    borderRadius: "5px",
+    height: '45vh',
+    margin: '10px',
+
+    boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px",
+  },
+  Extradetailscontainer1: {
+    width: '50%',
+    height: '100%',
+    // border: '1px solid black',
+    margin: '10px',
+    padding: '20px',
+  },
+
+  Extradetailscontainer2: {
+    width: '50%',
+    height: '100%',
+    // border: '1px solid black',
+    margin: '10px',
+    padding: '20px',
+  },
+
+  Extradetailsname: {
+    width: '50%',
+    height: '100%',
+    // borderRight: '1px solid black',
+    
+    flexDirection: 'column',
+    marginRight: '30px',
+    
+  },
+  Extradetailsvalue: {
+    width: '50%',
+    height: '100%',
+    // border: '1px solid black',
+    flexDirection:'column',
+  },
+  Extradetailsnamebox: {
+    height: '20%',
+    borderBottom: '1px solid gray',
+    display:'flex',
+    // justifyContent: 'center',
+    alignItems:'center',
+    
+    // border: '1px solid black',
+  },
+  Extradetailsvaluebox: {
+    height: '20%',
+    borderBottom: '1px solid gray',
+    display:'flex',
+    // justifyContent: 'center',
+    alignItems:'center',
+    // border: '1px solid black',
+  },
+
+
+
+
+
 }));
 
 
@@ -242,6 +304,7 @@ const Viewprofile = ({ state, setState, setAutoLogout }) => {
 
   const { classes, theme } = useStyles();
   const [date, setDate] = useState(new Date(2021, 9, 24));
+
 
   return (
     <Flex sx={{ flexDirection: 'column', padding: '10px', width: '100vw' }}>
@@ -304,9 +367,10 @@ const Viewprofile = ({ state, setState, setAutoLogout }) => {
           </Group>
         </Flex>
       </Flex>
-      <Flex>
 
-      </Flex>
+      <Extraprofiledetails classes={classes}>
+      </Extraprofiledetails>
+
     </Flex>
   );
 }

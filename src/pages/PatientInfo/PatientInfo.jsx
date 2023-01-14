@@ -1,16 +1,20 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useInterval } from '@mantine/hooks';
-import { createStyles, Navbar, Group, Code, Title, Box, Flex, Table, ScrollArea, Button, Progress } from '@mantine/core';
+import { createStyles, Navbar, Group, Code, Title, Box, Avatar, Flex, Table, ScrollArea, Button, Progress, Modal } from '@mantine/core';
 import {
     IconUser,
     IconPrescription,
     IconReportMedical
 } from '@tabler/icons';
+import { Dropzone } from '@mantine/dropzone';
 import Prescription from '../../components/Prescription/Prescription';
 import { ReportTable } from '../../components/Reports/ReportTable';
 import PrescriptionAccordion from './PrescriptionAccordion';
 import { useParams } from 'react-router-dom';
+import ProfileInformation from './ProfileInformation';
+
+const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
 
 const useStyles = createStyles((theme, _params, getRef) => {
@@ -37,7 +41,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
             '&:hover': {
                 backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                // backgroundColor: "#ccbded",
                 color: theme.colorScheme === 'dark' ? theme.white : theme.black,
 
                 [`& .${icon}`]: {
@@ -82,26 +85,16 @@ const useStyles = createStyles((theme, _params, getRef) => {
             backgroundColor: "white",
             marginRight: '30px',
             borderRadius: "5px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             flexDirection: 'column',
             padding: '10px',
-            boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
-        },
-
-        profilephotocontainer: {
-            // padding:'10px',
-
+            boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px",
 
         },
         profiledetailscontainer: {
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
-            marginTop:"20px",
-            borderTop:"1px solid gray",
+            marginTop: "20px",
+            borderTop: "1px solid gray",
             padding: '15px',
-            paddingTop:"30px",
+            paddingTop: "30px",
             height: '80%',
         },
         profileimage: {
@@ -115,9 +108,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
         profileName: {
             width: '50%',
-            // borderRadius: "20px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
@@ -132,24 +122,15 @@ const useStyles = createStyles((theme, _params, getRef) => {
         },
         detailsnamecontainer: {
             width: '45%',
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             marginRight: "5%",
             flexDirection: "column",
         },
         detailsvaluecontainer: {
             width: '45%',
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             marginRight: "5%",
             flexDirection: "column",
         },
         detailnamebox: {
-            // borderRadius: "1px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "1px",
             margin: '3px',
             height: "15%",
             justifyContent: 'space-around',
@@ -159,45 +140,31 @@ const useStyles = createStyles((theme, _params, getRef) => {
             width: '44vw',
             backgroundColor: "white",
             borderRadius: "5px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             padding: "10px",
             flexDirection: "column",
-            boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px",
+            boxShadow: "rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px",
         },
         medicationhistorytext: {
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             padding: "5px",
             margin: "10px",
             width: "96%",
 
         },
         medicationhistorycontainer: {
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
-            borderTop:"1px solid gray",
+            borderTop: "1px solid gray",
             padding: "10px",
             margin: "10px",
-            paddingTop:"30px",
+            paddingTop: "30px",
             width: "96%",
             height: "80%",
             flexDirection: "column",
             justifyContent: "space-around",
         },
         mhtextdetailsname: {
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px", 
             height: "10%",
 
         },
         mhtextdetailsvalue: {
-            // borderRadius: "10px",
-            // borderColor: "#E2E8F0",
-            // borderWidth: "2px",
             height: "10%",
         },
         button: {
@@ -238,9 +205,9 @@ const PatientInfo = ({ state, logoutHandler }) => {
     const { phoneNumber } = useParams();
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Profile');
+    const fileInputRef = useRef(null);
 
-    const [progress, setProgress] = useState(0);
-    const [loaded, setLoaded] = useState(false);
+
     const interval = useInterval(
         () =>
             setProgress((current) => {
@@ -271,13 +238,98 @@ const PatientInfo = ({ state, logoutHandler }) => {
 
 
     const mockData = [
+        {
+            name: "Name",
+            value: "Shreyas Kasliwal"
+        },
+        {
+            name: "Age",
+            value: "21"
+        },
     ];
 
+    const onUploadFileHandler = async (file) => {
+        try {
+            console.log(file);
+
+            if (!file) {
+                console.log("No file selected");
+                return;
+            }
+
+            const formData = new FormData();
+
+            formData.append('file', file);
+
+            const res = await fetch(`${BACKEND_URL}/doctor/upload-report`, {
+                method: 'PUT',
+                body: formData,
+            });
+
+            const resData = await res.json();
+
+            if (res.status === 401) {
+                console.log(resData.message || "Authorization failed");
+                return;
+            }
+
+            if (res.status === 422) {
+                console.log(resData.message || "Validation failed");
+                return;
+            }
+
+            if (res.status !== 200 && res.status !== 201) {
+                console.log(resData.message || "Fetching name failed.");
+                return;
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+
+
+
+    const profileData = {
+        "avatar": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80",
+        "name": "Jane Fingerlicker",
+        "email": "jfingerlicker@me.io",
+        "job": "Art director",
+        "age": "25",
+        "gender": "M",
+        "height": "1.75m",
+        "weight": "75kg",
+        "bloodGroup": "O+",
+        "address": "1234 Main Street, New York, NY 10001",
+        "phone": "123-456-7890",
+        "emergencyContact": "Jane's Mom",
+        "emergencyContactPhone": "123-456-7890",
+        "insurance": "Blue Cross Blue Shield",
+        "insuranceNumber": "123456789",
+        "allergies": "Peanuts, Shellfish",
+        "medications": "Lisinopril, Metformin",
+        "conditions": "Diabetes, Hypertension",
+        "notes": "Jane is a very active person and loves to run and hike. She is also a vegetarian and does not eat meat or fish.",
+        "reports": [
+            {
+                "name": "X-Ray",
+                "date": "2020-01-01",
+                "file": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
+            },
+            {
+                "name": "MRI",
+                "date": "2020-01-01",
+
+                "file": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlf"
+            },
+        ]
+    };
 
     return (
         <>
             <Flex>
-                <Navbar sx={{ height: '88vh' }} width={{ sm: 300 }} p="md">
+                <Navbar sx={{ height: '91vh' }} width={{ sm: 300 }} p="md">
                     <Navbar.Section grow>
                         <Group className={classes.header} position="apart">
                             <Title order={1}>Shreyas Kasliwal</Title>
@@ -286,136 +338,40 @@ const PatientInfo = ({ state, logoutHandler }) => {
                     </Navbar.Section>
                     <Navbar.Section grow className={classes.addbuttoncontainer}>
                         <Flex >
-                            <Button
-                                fullWidth
-                                className={classes.button}
-                                onClick={() => (loaded ? setLoaded(false) : !interval.active && interval.start())}
-                                color={loaded ? 'teal' : cx.primaryColor}
-                            >
-                                <div className={classes.label}>
-                                    {progress !== 0 ? 'Uploading files' : loaded ? 'Files uploaded' : 'Upload files'}
-                                </div>
-                                {progress !== 0 && (
-                                    <Progress
-                                        value={progress}
-                                        className={classes.progress}
-                                        color={cx.fn.rgba(theme.colors[cx.primaryColor][2], 0.35)}
-                                        radius="sm"
-                                    />
-                                )}
-                            </Button>
+                            <Group position="center" >
+                                <Button onClick={(event) => {
+                                    event.preventDefault();
+                                    fileInputRef.current.click();
+                                }}
+                                    sx={{ backgroundColor: '#805bd4', color: 'white' }}>Upload Reports</Button>
+                                <input
+                                    type="file"
+                                    id="file"
+                                    accept="application/pdf"
+                                    ref={fileInputRef}
+                                    onChange={(event) => {
+                                        const file = event.target.files[0];
+                                        if (file) {
+                                            onUploadFileHandler(file);
+                                        }
+                                    }}
+                                    hidden
+                                />
+                            </Group>
                         </Flex>
 
                     </Navbar.Section>
 
                 </Navbar>
 
-                <Box height={'100%'} width={'100%'} >
-                    {active === 'Profile' &&
-                        <div>
-                            <Flex className={classes.outercontainer}>
-                                <Flex className={classes.innercontainer1}>
-                                    <Flex className={classes.profilephotocontainer}>
-                                        <Box className={classes.profileimage}></Box>
-                                        <Flex className={classes.profileName}>
-                                            <Title order={4} className={classes.BoldText}>Shreyas Kasliwal</Title>
-                                            <Title order={6} className={classes.LightText}>Male | 26 </Title>
-
-                                        </Flex>
-                                    </Flex>
-                                    <Flex className={classes.profiledetailscontainer}>
-                                        {/* <Title order={4} className={classes.BoldText}>Personal Info</Title> */}
-                                        <Flex className={classes.detailsnamecontainer}>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Date of Birth</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Mobile No.</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Email Id</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Height</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Address</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.BoldText}>Nationality</Title>
-                                            </Box>
-                                            {/* <Box className={classes.detailnamebox}>
-                                        <Title order={6} className={classes.BoldText}>Doctor</Title> 
-                                        </Box> */}
-                                        </Flex>
-                                        <Flex className={classes.detailsvaluecontainer}>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>20/10/2004</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>9637582165</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>Vital@gmail.com</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>162cm</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>Bombay Bandra House, mumbai</Title>
-                                            </Box>
-                                            <Box className={classes.detailnamebox}>
-                                                <Title order={6} className={classes.LightText}>Indian</Title>
-                                            </Box>
-                                            {/* <Box className={classes.detailnamebox}>
-                                        <Title order={6} className={classes.LightText}>Dr.Shobhit Gupta</Title> 
-                                        </Box> */}
-                                        </Flex>
-                                    </Flex>
-                                </Flex>
-                                <Flex className={classes.innercontainer2}>
-                                    <Title order={2} className={classes.medicationhistorytext}> Medication History</Title>
-                                    <Flex className={classes.medicationhistorycontainer}>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Diabetes</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>yes i am diabetic</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Asthma</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>No</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Heart Problems</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>No</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Migraine</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>yes</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Smoking</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>Chain Smoker</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsname}>
-                                            <Title order={4} className={classes.BoldText}>Drinking</Title>
-                                        </Box>
-                                        <Box className={classes.mhtextdetailsvalue}>
-                                            <Title order={5} className={classes.LightText}>Occasionally</Title>
-                                        </Box>
-                                    </Flex>
-                                </Flex>
-                            </Flex>
-                        </div>}
+                <Box sx={
+                    {
+                        height: '88vh',
+                        width: '100%',
+                        backgroundColor: "#F7FAFC",
+                    }
+                } >
+                    {active === 'Profile' && <ProfileInformation data={profileData} state={state} phoneNumber={phoneNumber} />}
                     {active === 'Prescriptions' && <PrescriptionAccordion state={state} phoneNumber={phoneNumber} />}
                     {active === 'Reports' && <ReportTable data={mockData} />}
                 </Box>
@@ -428,3 +384,105 @@ const PatientInfo = ({ state, logoutHandler }) => {
 
 
 export default PatientInfo;
+
+{/* <Flex className={classes.outercontainer}>
+<Flex className={classes.innercontainer1}>
+    <Flex className={classes.profilephotocontainer}>
+
+        <Avatar size={120} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
+
+
+        <Flex className={classes.profileName}>
+            <Title order={4} className={classes.BoldText}>Shreyas Kasliwal</Title>
+            <Title order={6} className={classes.LightText}>Male | 26 </Title>
+
+        </Flex>
+    </Flex>
+    <Flex className={classes.profiledetailscontainer}>
+   
+        <Flex className={classes.detailsnamecontainer}>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Date of Birth</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Mobile No.</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Email Id</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Height</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Address</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.BoldText}>Nationality</Title>
+            </Box>
+   
+        </Flex>
+        <Flex className={classes.detailsvaluecontainer}>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>20/10/2004</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>9637582165</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>Vital@gmail.com</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>162cm</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>Bombay Bandra House, mumbai</Title>
+            </Box>
+            <Box className={classes.detailnamebox}>
+                <Title order={6} className={classes.LightText}>Indian</Title>
+            </Box>
+   
+        </Flex>
+    </Flex>
+</Flex>
+<Flex className={classes.innercontainer2}>
+    <Title order={2} className={classes.medicationhistorytext}> Medication History</Title>
+    <Flex className={classes.medicationhistorycontainer}>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Diabetes</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>yes i am diabetic</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Asthma</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>No</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Heart Problems</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>No</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Migraine</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>yes</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Smoking</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>Chain Smoker</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsname}>
+            <Title order={4} className={classes.BoldText}>Drinking</Title>
+        </Box>
+        <Box className={classes.mhtextdetailsvalue}>
+            <Title order={5} className={classes.LightText}>Occasionally</Title>
+        </Box>
+    </Flex>
+</Flex>
+</Flex> */}

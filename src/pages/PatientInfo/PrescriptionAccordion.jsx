@@ -1,9 +1,29 @@
-import { Accordion } from '@mantine/core';
-import { IconPrescription } from '@tabler/icons';
+import { Accordion, ActionIcon, Box, Button } from '@mantine/core';
+import { IconPrescription, IconDots } from '@tabler/icons';
+import html2pdf from 'html2pdf.js';
 import React, { useState, useEffect } from 'react';
 import Prescription from '../../components/Prescription/Prescription';
 
 const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
+
+
+
+
+function AccordionControl(props) {
+    return (
+        <Box sx={{ display: 'flex', alignItems: 'center', padding: '20px' }} >
+            <Accordion.Control {...props} />
+            <Button sx={{ marginRight: '10px' }} onClick={() => {
+                html2pdf(document.getElementById('prescription' + props.prescriptionid))
+            }}>
+                Download
+            </Button>
+            <Button sx={{ marginRight: '10px' }}>
+                Share
+            </Button>
+        </Box>
+    );
+}
 
 const PrescriptionAccordion = ({ state, phoneNumber }) => {
     const [prescriptions, setPrescriptions] = useState([]);
@@ -41,17 +61,18 @@ const PrescriptionAccordion = ({ state, phoneNumber }) => {
         setPrescriptions(resData.prescriptions);
     };
 
+
+
     return (
-        <Accordion variant="separated">
+        <Accordion variant="separated" disableChevronRotation >
             {prescriptions.map((prescription) => {
                 return (
                     <Accordion.Item key={prescription._id} value={prescription._id} sx={{ width: '100%' }}>
-                        <Accordion.Control>
-                            <IconPrescription size={20} />
-                            {prescription.date}
-                        </Accordion.Control>
+                        <AccordionControl prescriptionid={prescription._id}>
+                            <IconPrescription display={'inline-block'} size={20} /> {prescription.date}
+                        </AccordionControl>
                         <Accordion.Panel>
-                            <Prescription prescriptionId={prescription._id} state={state}/>
+                            <Prescription prescriptionId={prescription._id} state={state} />
                         </Accordion.Panel>
                     </Accordion.Item>
                 );

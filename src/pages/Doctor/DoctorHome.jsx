@@ -41,19 +41,55 @@ import PrescriptionCard from "../../components/Prescription/PrescriptionCard";
 import MedicinalRow from "../../components/Form/MedicinalRow.jsx";
 import StatsCard from "../../components/Dashboard/StatsCard";
 import AppointmentTable from "../../components/Dashboard/AppointmentTable";
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
 const DoctorHome = ({ state, setState, setAutoLogout }) => {
+  // useNavigate
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [lastMonthPrescriptions, setLastMonthPrescriptions] = useState("");
   const [patientCount, setPatientCount] = useState("");
 
   useEffect(() => {
+    getDoctorInfo();
     getName();
     getLastMonthPrescriptions();
     getPatientCount();
   }, []);
+
+  const getDoctorInfo = async () => {
+    const res = await fetch(`${BACKEND_URL}/doctor/info`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.token,
+      },
+    });
+
+    const resData = await res.json();
+
+    if (res.status === 401) {
+      console.log(resData.message || "Authorization failed");
+      return;
+    }
+
+    if (res.status === 422) {
+      console.log(resData.message || "Validation failed");
+      return;
+    }
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log(resData.message || "Fetching name failed.");
+      return;
+    }
+
+    if (!resData.doctorInfo.extraInfo) {
+      navigate("/doctor/questionnaire");
+    }
+  };
 
   const getName = async () => {
     const res = await fetch(`${BACKEND_URL}/data/name`, {

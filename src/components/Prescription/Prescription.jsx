@@ -90,6 +90,7 @@ const Prescription = ({ state, prescriptionId }) => {
 
   return (
     <div
+    id={"prescription" + prescriptionId}
       style={{
         padding: "2%",
         margin: "2%",

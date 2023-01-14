@@ -88,6 +88,7 @@ export function ReportTable({ data }) {
     const [sortBy, setSortBy] = useState(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
+
     const setSorting = (field) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
         setReverseSortDirection(reversed);

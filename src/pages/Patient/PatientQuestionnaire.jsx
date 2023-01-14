@@ -19,6 +19,8 @@ import QuestionnaireHeader from "./QuestionnaireHeader";
 import { Container } from "react-bootstrap";
 import InformationTable from "./InformationTable";
 
+const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
+
 const useStyles = createStyles((theme) => ({
   flexWrapper: {
     display: "flex",
@@ -27,9 +29,8 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[8] : "#f7fafc",
-    border: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[3]
-    }`,
+    border: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[3]
+      }`,
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       flexDirection: "column-reverse",
       padding: theme.spacing.xl,
@@ -47,7 +48,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const PatientQuestionnaire = ({}) => {
+const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
   const [active, setActive] = useState(0);
   const { classes } = useStyles();
 
@@ -132,10 +133,42 @@ const PatientQuestionnaire = ({}) => {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
+  const savePatientInfo = async (patientInfo) => {
+    console.log("Saving patient info", patientInfo);
+    const res = await fetch(`${BACKEND_URL}/patient/info`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.token,
+      },
+      body: JSON.stringify({
+        patientInfo: patientInfo,
+      }),
+    });
+
+    const resData = await res.json();
+
+    if (res.status === 401) {
+      console.log(resData.message || "Authorization failed");
+      return;
+    }
+
+    if (res.status === 422) {
+      console.log(resData.message || "Validation failed");
+      return;
+    }
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log(resData.message || "Fetching name failed.");
+      return;
+    }
+  };
+
   const submit = () => {
-    //navigate to next page
-    console.log("Submitted");
-    window.location.href = "/home";
+    const patientInfo = form.values;
+    savePatientInfo(patientInfo);
+
+    window.location.href = "/patient/home";
   };
 
   return (
@@ -439,12 +472,12 @@ const PatientQuestionnaire = ({}) => {
             </Radio.Group>
             {form.values.nervousSystemDiseases ===
               "yes-nervousSystemDiseases" && (
-              <Textarea
-                mt="md"
-                placeholder="Please write what exactly:"
-                {...form.getInputProps("nervousSystemDiseasesExplanation")}
-              />
-            )}
+                <Textarea
+                  mt="md"
+                  placeholder="Please write what exactly:"
+                  {...form.getInputProps("nervousSystemDiseasesExplanation")}
+                />
+              )}
           </Stepper.Step>
 
           <Stepper.Step

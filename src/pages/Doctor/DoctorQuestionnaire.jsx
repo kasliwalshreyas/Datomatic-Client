@@ -18,10 +18,84 @@ import { DatePicker } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import QuestionnaireHeader from "./QuestionnaireHeader";
 
+const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
-const DoctorQuestionnaire = () => {
+const DoctorQuestionnaire = ({ state, setState, setAutoLogout }) => {
+
+  const form = useForm({
+    initialValues: {
+      name: "",
+      birth: "",
+      address: "",
+      city: "",
+      country: "",
+      pincode: null,
+      phone: null,
+      profession: "",
+    },
+
+    validate: (values) => {
+      return {
+        name:
+          values.name.trim().length < 2
+            ? "Name must include at least 2 characters"
+            : null,
+        address: values.address.length <= 0 ? "Enter Address" : null,
+        city: values.city.length <= 0 ? "Enter City" : null,
+        country: values.country.length <= 0 ? "Enter Country" : null,
+        pincode: values.pincode ? null : "Enter Pincode",
+        phone: values.phone ? null : "Enter Phone Number",
+      };
+    }
+
+  });
+
+  const saveDoctorInfo = async (doctorInfo) => {
+    const res = await fetch(`${BACKEND_URL}/doctor/info`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.token,
+      },
+      body: JSON.stringify({
+        doctorInfo: doctorInfo,
+      }),
+    });
+
+    const resData = await res.json();
+
+    if (res.status === 401) {
+      console.log(resData.message || "Authorization failed");
+      return;
+    }
+
+    if (res.status === 422) {
+      console.log(resData.message || "Validation failed");
+      return;
+    }
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log(resData.message || "Fetching name failed.");
+      return;
+    }
+  };
+
+  const submit = () => {
+    if (form.validate().hasErrors) {
+      return;
+    }
+    else {
+      const doctorInfo = form.values;
+      saveDoctorInfo(doctorInfo);
+      window.location.href = "/home";
+    }
+
+  };
+
+
   return (
     <div>
+      <QuestionnaireHeader />
       <Container>
         <TextInput
           label="Name"
@@ -60,13 +134,18 @@ const DoctorQuestionnaire = () => {
           withAsterisk
           {...form.getInputProps("phone")}
         />
-        <TextInput
-          label="Profession"
-          placeholder="Profession"
-          {...form.getInputProps("profession")}
+        <NativeSelect
+          data={["Family Medicine Physician", "Pediatrician", "Obstetrician/Gynecologist", "Surgeon", "Cardiologist", "Dermatologist", "Neurologist", "Oncologist", "Ophthalmologist", "Orthopedic Surgeon", "Otolaryngologist (ENT)", "Pathologist", "Psychiatrist", "Radiologist", "Urologist", "Anesthesiologist", "Emergency Medicine Physician", "Rheumatologist", "Gastroenterologist", "Nephrologist", "Pulmonologist", "Endocrinologist"]}
+          label="Speciality"
+          placeholder="Speciality"
+          {...form.getInputProps("speciality")}
+          withAsterisk
         />
+        <Group position="right" mt="xl">
+          {<Button onClick={submit} >Submit</Button>}
+        </Group>
       </Container>
-    </div>
+    </div >
   );
 };
 

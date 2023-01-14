@@ -34,6 +34,7 @@ import React from "react";
 import PrescriptionCard from "../../components/Prescription/PrescriptionCard";
 import MedicinalRow from "../../components/Form/MedicinalRow.jsx";
 import PatientPrescriptionCard from "../../components/Prescription/PatientPrescriptionCard";
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -48,10 +49,45 @@ const PatientHome = ({ state, setState, setAutoLogout }) => {
   const [medicineList, setMedicineList] = useState([]);
   const [remarks, setRemarks] = useState("");
 
+  // useNavigate
+  const navigate = useNavigate();
+
   useEffect(() => {
     getName();
     getPrescriptions();
+    getPatientInfo();
   }, []);
+
+  const getPatientInfo = async () => {
+    const res = await fetch(`${BACKEND_URL}/patient/info`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.token,
+      },
+    });
+
+    const resData = await res.json();
+
+    if (res.status === 401) {
+      console.log(resData.message || "Authorization failed");
+      return;
+    }
+
+    if (res.status === 422) {
+      console.log(resData.message || "Validation failed");
+      return;
+    }
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log(resData.message || "Fetching name failed.");
+      return;
+    }
+
+    if (!resData.patientInfo) {
+      navigate("/patient/questionnaire");
+    }
+  };
 
   const getName = async () => {
     const res = await fetch(`${BACKEND_URL}/data/name`, {
@@ -148,7 +184,7 @@ const PatientHome = ({ state, setState, setAutoLogout }) => {
   };
 
   const sharePrescriptionHandler = async () => {
-    const res = await fetch(`${BACKEND_URL}/patient/share-prescription` , {
+    const res = await fetch(`${BACKEND_URL}/patient/share-prescription`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
