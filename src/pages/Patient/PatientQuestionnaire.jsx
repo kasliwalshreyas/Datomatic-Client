@@ -257,7 +257,7 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
         "description": bloodPressure
       },
       heartDiseases: {
-        "response": heartDisease === "yes-heartDisease" ? true : false,
+        "response": heartDiseases === "yes-heartDisease" ? true : false,
         "description": heartDiseaseExplanation
       },
       bloodDiseases: {
@@ -292,7 +292,10 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
         "response": nervousSystemDiseases === "yes-nervousSystemDiseases" ? true : false,
         "description": nervousSystemDiseasesExplanation
       },
-      anyOther,
+      anyOther: {
+        "response": anyOther === "yes-anyOther" ? true : false,
+        "description": anyOther
+      },
     };
     return finalInformation;
   };
