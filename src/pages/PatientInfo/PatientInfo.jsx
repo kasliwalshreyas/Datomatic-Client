@@ -495,40 +495,7 @@ const PatientInfo = ({ state, logoutHandler }) => {
 
 
 
-    const profileData = {
-        "avatar": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80",
-        "name": "Jane Fingerlicker",
-        "email": "jfingerlicker@me.io",
-        "job": "Art director",
-        "age": "25",
-        "gender": "M",
-        "height": "1.75m",
-        "weight": "75kg",
-        "bloodGroup": "O+",
-        "address": "1234 Main Street, New York, NY 10001",
-        "phone": "123-456-7890",
-        "emergencyContact": "Jane's Mom",
-        "emergencyContactPhone": "123-456-7890",
-        "insurance": "Blue Cross Blue Shield",
-        "insuranceNumber": "123456789",
-        "allergies": "Peanuts, Shellfish",
-        "medications": "Lisinopril, Metformin",
-        "conditions": "Diabetes, Hypertension",
-        "notes": "Jane is a very active person and loves to run and hike. She is also a vegetarian and does not eat meat or fish.",
-        "reports": [
-            {
-                "name": "X-Ray",
-                "date": "2020-01-01",
-                "file": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-            },
-            {
-                "name": "MRI",
-                "date": "2020-01-01",
 
-                "file": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlf"
-            },
-        ]
-    };
 
     return (
         <>
