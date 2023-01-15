@@ -98,7 +98,7 @@ const ProfileInformation = ({ data }) => {
                 radius="md"
                 className={classes.info}
             >
-                {/* <PatientInformationDetails data={data} /> */}
+                <PatientInformationDetails data={data} />
             </Paper>
         </Box>
     );

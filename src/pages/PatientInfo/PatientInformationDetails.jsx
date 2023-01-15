@@ -51,15 +51,17 @@ const charactersList = [
 
 
 
-function AccordionLabel(item, value) {
-    console.log(item, value);
+function AccordionLabel({ response, value, item }) {
+    // const { response, value } = a[0];
+    // const item = a[1];
+    // console.log(response, value, item);
     return (
         <Group noWrap>
             {/* <Avatar src={image} radius="xl" size="lg" /> */}
             <div>
                 <Text>{item}</Text>
                 <Text size="sm" color="dimmed" weight={400}>
-                    {value.description}
+                    {response ? 'Yes' : 'No'}
                 </Text>
             </div>
         </Group>
@@ -74,19 +76,21 @@ const PatientInformationDetails = ({ data }) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
     console.log(keys);
-    const items = keys.map((item, index) => (
-
-        // <Accordion.Item value={index} key={index}>
-        //     <Accordion.Control>{data[item]}</Accordion.Control>
-        //     <Accordion.Panel>{data[item].description}</Accordion.Panel>
-        // </Accordion.Item>
-        <Accordion.Item value={index} key={index}>
-            <Accordion.Control>{AccordionLabel(item, values[index])}</Accordion.Control>
-            <Accordion.Panel>{values[index]}</Accordion.Panel>
+    const items = keys.map((item) => (
+        <Accordion.Item value={item} key={item}>
+            <Accordion.Control>
+                {/* <AccordionLabel {...data[item]} /> */}
+                <AccordionLabel response={data[item].response} value={data[item].value} item={item} />
+            </Accordion.Control>
+            {
+                data[item].response && (
+                    <Accordion.Panel>
+                        <Text size="sm">{data[item].description}</Text>
+                    </Accordion.Panel>
+                )
+            }
         </Accordion.Item>
-
-    )
-    )
+    ));
     console.log(items);
     return (
         <>
@@ -109,7 +113,7 @@ const PatientInformationDetails = ({ data }) => {
 
                 </Accordion.Item>
             </Accordion> */}
-            <Accordion chevronPosition="right" variant="contained">
+            <Accordion chevronPosition="right" disableChevronRotation variant="contained">
                 {items}
             </Accordion>
         </>
