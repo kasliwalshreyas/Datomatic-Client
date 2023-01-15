@@ -188,9 +188,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
             zIndex: 1,
         },
 
-
-
-
     };
 });
 
@@ -201,11 +198,175 @@ const data = [
 ];
 
 
+
+
+
 const PatientInfo = ({ state, logoutHandler }) => {
     const { phoneNumber } = useParams();
     const { classes, cx } = useStyles();
     const [active, setActive] = useState('Profile');
+    const [patientInfo, setPatientInfo] = useState({
+        "name": {
+            "response": false,
+            "description": "Rahul"
+        },
+        "age": {
+            "response": false,
+            "description": "23"
+        },
+        "gender": {
+            "response": false,
+            "description": "M"
+        },
+        "address": {
+            "response": false,
+            "description": "Kolkata"
+        },
+        "city": {
+            "response": false,
+            "description": "Kolkata"
+        },
+        "country": {
+            "response": false,
+            "description": "India"
+        },
+        "phoneNumber": {
+            "response": false,
+            "description": "123456789"
+        },
+        "proffesion": {
+            "response": false,
+            "description": "Business"
+        },
+        "bloodGroup": {
+            "response": false,
+            "description": "A+"
+        },
+        "weight": {
+            "response": false,
+            "description": "65"
+        },
+        "height": {
+            "response": false,
+            "description": "5.6"
+        },
+        "allergies": {
+            "response": false,
+            "description": "Peanuts"
+        },
+        "preganant": {
+            "response": false,
+            "description": "false"
+        },
+        // "age": 23,
+        // "gender": "M",
+        // "address": "Kolkata",
+        // "city": "Kolkata",
+        // "country": "India",
+        // "phoneNumber": "1234567890",
+        // "proffesion": "Business",
+        // "bloodGroup": "A+",
+        // "weight": 65,
+        // "height": 5.6,
+        // "allergies": "Peanuts",
+        // "preganant": false,
+        "smoker": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "alcoholic": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "pastDrugs": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "bloodPressure": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "heartDiseases": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "bloodDiseases": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "respiratoryDiseases": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "liverDisease": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "thyroidDisease": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "kidneyDisease": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "neurologicalDisease": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "diabetic": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "asthma": {
+            "response": true,
+            "description": "Occasionally"
+        },
+        "otherDisease": {
+            "response": true,
+            "description": "Occasionally"
+        },
+    });
+    const [reports, setReports] = useState([]);
     const fileInputRef = useRef(null);
+
+
+
+    useEffect(() => {
+        getPatientInfo();
+        getReports();
+    }, []);
+
+    const getPatientInfo = async () => {
+        const res = await fetch(`${BACKEND_URL}/doctor/patient/${phoneNumber}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + state.token,
+            },
+        });
+
+        const resData = await res.json();
+
+
+        if (res.status === 401) {
+            console.log(resData.message || "Authorization failed");
+            return;
+        }
+
+        if (res.status === 422) {
+            console.log(resData.message || "Validation failed");
+            return;
+        }
+
+        if (res.status !== 200 && res.status !== 201) {
+            console.log(resData.message || "Fetching name failed.");
+            return;
+        }
+
+        // setPatientInfo(resData.patientInfo);
+        console.log(resData.patientInfo);
+    };
 
 
     const interval = useInterval(
@@ -250,8 +411,6 @@ const PatientInfo = ({ state, logoutHandler }) => {
 
     const onUploadFileHandler = async (file) => {
         try {
-            console.log(file);
-
             if (!file) {
                 console.log("No file selected");
                 return;
@@ -259,10 +418,14 @@ const PatientInfo = ({ state, logoutHandler }) => {
 
             const formData = new FormData();
 
+            formData.append('phoneNumber', phoneNumber);
             formData.append('file', file);
 
             const res = await fetch(`${BACKEND_URL}/doctor/upload-report`, {
                 method: 'PUT',
+                headers: {
+                    Authorization: "Bearer " + state.token
+                },
                 body: formData,
             });
 
@@ -282,11 +445,52 @@ const PatientInfo = ({ state, logoutHandler }) => {
                 console.log(resData.message || "Fetching name failed.");
                 return;
             }
+
+            if (resData) {
+                getReports();
+            }
+
         }
         catch (err) {
             console.log(err);
         }
     }
+
+    const getReports = async () => {
+        try {
+            const res = await fetch(`${BACKEND_URL}/doctor/get-reports/${phoneNumber}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + state.token,
+                },
+            });
+
+            const resData = await res.json();
+
+            if (res.status === 401) {
+                console.log(resData.message || "Authorization failed");
+                return;
+            }
+
+            if (res.status === 422) {
+                console.log(resData.message || "Validation failed");
+                return;
+            }
+
+            if (res.status !== 200 && res.status !== 201) {
+                console.log(resData.message || "Fetching name failed.");
+                return;
+            }
+
+            setReports(resData.reports);
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+    }
+
 
 
 
@@ -371,9 +575,9 @@ const PatientInfo = ({ state, logoutHandler }) => {
                         backgroundColor: "#F7FAFC",
                     }
                 } >
-                    {active === 'Profile' && <ProfileInformation data={profileData} state={state} phoneNumber={phoneNumber} />}
+                    {patientInfo && active === 'Profile' && <ProfileInformation data={patientInfo} state={state} phoneNumber={phoneNumber} />}
                     {active === 'Prescriptions' && <PrescriptionAccordion state={state} phoneNumber={phoneNumber} />}
-                    {active === 'Reports' && <ReportTable data={mockData} />}
+                    {active === 'Reports' && <ReportTable data={reports} />}
                 </Box>
 
             </Flex>
