@@ -52,10 +52,6 @@ const ProfileInformation = ({ data }) => {
                 <td>{data.age.description}</td>
             </tr>
             <tr>
-                <th>Gender</th>
-                <td>{data.gender.description}</td>
-            </tr>
-            <tr>
                 <th>Height</th>
                 <td>{data.height.description}</td>
             </tr>
