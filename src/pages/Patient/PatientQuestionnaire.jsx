@@ -176,19 +176,70 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
     } = patientInfo;
 
     const finalInformation = {
-      name,
-      age: getYearsRange(new Date(birth), new Date())[0],
-      address,
-      city,
-      country,
-      pincode,
-      phone,
-      profession,
-      weight,
-      height,
-      bloodGroup,
-      allergies,
-      isPregnant: isPregnant === "Yes" ? true : false,
+      name: {
+        "response": false,
+        "description": name
+      },
+      age: {
+        "response": false,
+        "description": getYearsRange(new Date(birth), new Date())[0]
+      },
+      address: {
+        "response": false,
+        "description": address
+      },
+      city: {
+        "response": false,
+        "description": city
+      },
+      country: {
+        "response": false,
+        "description": country
+      },
+      pincode: {
+        "response": false,
+        "description": pincode
+      },
+      phone: {
+        "response": false,
+        "description": phone
+      },
+      profession: {
+        "response": false,
+        "description": profession
+      },
+      weight: {
+        "response": false,
+        "description": weight
+      },
+      height: {
+        "response": false,
+        "description": height
+      },
+      bloodGroup: {
+        "response": false,
+        "description": bloodGroup
+      },
+      allergies: {
+        "response": true,
+        "description": allergies
+      },
+      isPregnant: {
+        "response": true,
+        "description": isPregnant === "Yes" ? true : false,
+      },
+
+      // address,
+      // city,
+      // country,
+      // pincode,
+      // phone,
+      // profession,
+      // weight,
+      // height,
+      // bloodGroup,
+      // allergies,
+      // isPregnant: isPregnant === "Yes" ? true : false,
       smoking: {
         "response": smoking !== "never-smoke" ? true : false,
         "description": smoking
