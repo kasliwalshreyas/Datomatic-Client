@@ -364,7 +364,7 @@ const PatientInfo = ({ state, logoutHandler }) => {
             return;
         }
 
-        // setPatientInfo(resData.patientInfo);
+        setPatientInfo(resData.patientInfo);
         console.log(resData.patientInfo);
     };
 
