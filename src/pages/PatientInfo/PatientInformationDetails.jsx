@@ -75,23 +75,25 @@ const PatientInformationDetails = ({ data }) => {
 
     const keys = Object.keys(data);
     const values = Object.values(data);
-    console.log(keys);
+    // console.log(keys);
     const items = keys.map((item) => (
-        <Accordion.Item value={item} key={item}>
-            <Accordion.Control>
-                {/* <AccordionLabel {...data[item]} /> */}
-                <AccordionLabel response={data[item].response} value={data[item].value} item={item} />
-            </Accordion.Control>
-            {
-                data[item].response && (
-                    <Accordion.Panel>
-                        <Text size="sm">{data[item].description}</Text>
-                    </Accordion.Panel>
-                )
-            }
-        </Accordion.Item>
+        data[item].response ? (
+            <Accordion.Item value={item} key={item}>
+                <Accordion.Control>
+                    {/* <AccordionLabel {...data[item]} /> */}
+                    <AccordionLabel response={data[item].response} value={data[item].value} item={item} />
+                </Accordion.Control>
+                {
+                    data[item].response && (
+                        <Accordion.Panel>
+                            <Text size="sm">{data[item].description}</Text>
+                        </Accordion.Panel>
+                    )
+                }
+            </Accordion.Item>
+        ) : null
     ));
-    console.log(items);
+    // console.log(items);
     return (
         <>
             {/* <Accordion
