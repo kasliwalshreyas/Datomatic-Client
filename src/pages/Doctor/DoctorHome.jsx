@@ -257,8 +257,8 @@ const DoctorHome = ({ state, setState, setAutoLogout }) => {
             </HStack>
           </Box>
         </Stat>
-        <StatsCard />
-        <StatsCard />
+        {/* <StatsCard /> */}
+        {/* <StatsCard /> */}
       </Flex>
       <Flex
         background={"white"}

@@ -13,7 +13,7 @@ import {
   NativeSelect,
   Radio,
 } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
+import { DatePicker, getYearsRange } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import QuestionnaireHeader from "./QuestionnaireHeader";
 import { Container } from "react-bootstrap";
@@ -51,6 +51,7 @@ const useStyles = createStyles((theme) => ({
 const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
   const [active, setActive] = useState(0);
   const { classes } = useStyles();
+  const [patientInformation, setPatientInformation] = useState({});
 
   const form = useForm({
     initialValues: {
@@ -72,7 +73,7 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
       pastDrugs: "",
       pastDrugsExplanation: "",
       bloodPressure: "",
-      heartDisease: "",
+      heartDiseases: "",
       heartDiseaseExplanation: "",
       bloodDiseases: "",
       bloodDiseasesExplanation: "",
@@ -96,7 +97,6 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
     },
 
     validate: (values) => {
-      console.log(values);
       if (active === 0) {
         return {
           name:
@@ -119,15 +119,151 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
     },
   });
 
+  const getYearsRange = (birth, today) => {
+    const years = today.getFullYear() - birth.getFullYear();
+    const months = today.getMonth() - birth.getMonth();
+    const days = today.getDate() - birth.getDate();
+    return [
+      years,
+      years * 12 + months,
+      years * 12 + months * 30 + days,
+      years * 12 + months * 30 + days * 24,
+    ];
+  }
+
+
+  const getInfoCleaned = (patientInfo) => {
+    const {
+      name,
+      birth,
+      address,
+      city,
+      country,
+      pincode,
+      phone,
+      profession,
+      weight,
+      height,
+      bloodGroup,
+      allergies,
+      isPregnant,
+      smoking,
+      alcohol,
+      pastDrugs,
+      pastDrugsExplanation,
+      bloodPressure,
+      heartDiseases,
+      heartDiseaseExplanation,
+      bloodDiseases,
+      bloodDiseasesExplanation,
+      diabetes,
+      insulin,
+      insulinName,
+      asthma,
+      asthmaPump,
+      asthmaPumpName,
+      respiraroryDiseases,
+      respiraroryDiseasesExplanation,
+      thyroidDiseases,
+      thyroidDiseasesExplanation,
+      liverDiseases,
+      liverDiseasesExplanation,
+      kidneyDiseases,
+      kidneyDiseasesExplanation,
+      nervousSystemDiseases,
+      nervousSystemDiseasesExplanation,
+      anyOther,
+    } = patientInfo;
+
+    const finalInformation = {
+      name,
+      age: getYearsRange(new Date(birth), new Date())[0],
+      address,
+      city,
+      country,
+      pincode,
+      phone,
+      profession,
+      weight,
+      height,
+      bloodGroup,
+      allergies,
+      isPregnant: isPregnant === "Yes" ? true : false,
+      smoking: {
+        "response": smoking !== "never-smoke" ? true : false,
+        "description": smoking
+      },
+      alcohol: {
+        "response": alcohol !== "never-alcohol" ? true : false,
+        "description": alcohol
+      },
+      pastDrugs: {
+        "response": pastDrugs === "yes-pastDrugs" ? true : false,
+        "description": pastDrugsExplanation
+      },
+      bloodPressure: {
+        "response": bloodPressure === "yes-bloodPressure" ? true : false,
+        "description": bloodPressure
+      },
+      heartDiseases: {
+        "response": heartDisease === "yes-heartDisease" ? true : false,
+        "description": heartDiseaseExplanation
+      },
+      bloodDiseases: {
+        "response": bloodDiseases === "yes-bloodDiseases" ? true : false,
+        "description": bloodDiseasesExplanation
+      },
+      diabetes: {
+        "response": diabetes === "yes-diabetes" ? true : false,
+        "description": diabetes + " " + insulin + " " + insulinName
+      },
+      asthma: {
+        "response": asthma === "yes-asthma" ? true : false,
+        "description": asthma + " " + asthmaPump + " " + asthmaPumpName
+      },
+      respiraroryDiseases: {
+        "response": respiraroryDiseases === "yes-respiraroryDiseases" ? true : false,
+        "description": respiraroryDiseasesExplanation
+      },
+      thyroidDiseases: {
+        "response": thyroidDiseases === "yes-thyroidDiseases" ? true : false,
+        "description": thyroidDiseasesExplanation
+      },
+      liverDiseases: {
+        "response": liverDiseases === "yes-liverDiseases" ? true : false,
+        "description": liverDiseasesExplanation
+      },
+      kidneyDiseases: {
+        "response": kidneyDiseases === "yes-kidneyDiseases" ? true : false,
+        "description": kidneyDiseasesExplanation
+      },
+      nervousSystemDiseases: {
+        "response": nervousSystemDiseases === "yes-nervousSystemDiseases" ? true : false,
+        "description": nervousSystemDiseasesExplanation
+      },
+      anyOther,
+    };
+    return finalInformation;
+  };
+
   const nextStep = () =>
     setActive((current) => {
       const hh = form.validate();
-      console.log(hh);
       if (hh.hasErrors) {
         console.log("Errors");
         return current;
       }
-      return current < 3 ? current + 1 : current;
+      else {
+
+        if (current === 2) {
+          const patientInfo = form.values;
+          const finalInformation = getInfoCleaned(patientInfo);
+          setPatientInformation(finalInformation);
+          console.log(patientInfo);
+        }
+
+        return current < 3 ? current + 1 : current;
+      }
     });
 
   const prevStep = () =>
@@ -166,7 +302,9 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
 
   const submit = () => {
     const patientInfo = form.values;
-    savePatientInfo(patientInfo);
+
+    savePatientInfo(patientInformation);
+    console.log(patientInformation, 'patientInformation');
 
     window.location.href = "/patient/home";
   };

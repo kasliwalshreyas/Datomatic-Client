@@ -295,14 +295,15 @@ const useStyles = createStyles((theme) => ({
 
     outercontainer: {
         margin: '10px',
-        height: '80vh',
+        height: '70vh',
         width: '98%',
-        border: '1px solid black',
+        padding: "10px",
+        // border: '1px solid black',
         justifyContent: 'space-around',
     },
     firstcontainer: {
         margin: '20px',
-        width: '30%',
+        width: '35%',
         height: '90%',
         // border: '1px solid black',
         borderRadius: '5px',
@@ -310,12 +311,7 @@ const useStyles = createStyles((theme) => ({
         flexDirection: 'column',
 
     },
-    secondcontainer: {
-        margin: '20px',
-        width: '50%',
-        height: '90%',
-        border: '1px solid black',
-    },
+
     profileiconimage: {
         margin: '40px',
         // border: '1px solid black',
@@ -334,7 +330,7 @@ const useStyles = createStyles((theme) => ({
         // marginBottom:'10px',
     },
     doctornametext: {
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+        fontFamily: `Times New Roman`,
         fontWeight: '600',
         fontSize: '30px',
     },
@@ -362,6 +358,65 @@ const useStyles = createStyles((theme) => ({
         },
     },
 
+    clinicaddressbox: {
+        textAlign: 'center',
+        marginLeft: '10px 0px',
+    },
+    clinicaddress: {
+        color: 'gray',
+        padding: '10px 0x',
+        fontWeight: '400',
+        fontSize: '20px',
+
+    },
+    secondcontainer: {
+        margin: '20px',
+        width: '40%',
+        height: '90%',
+
+        borderRadius: '5px',
+        boxShadow: 'rgba(0, 0, 0, 0.18) 0px 2px 4px',
+        flexDirection: 'row',
+    },
+    doctordetailscontainer1: {
+        width: '50%',
+        // border: '1px solid black',
+        flexDirection: 'column',
+    },
+    doctordetailscontainer2: {
+        width: '50%',
+        // border: '1px solid black',
+        flexDirection: 'column',
+    },
+    doctordetailsnamebox: {
+        display: 'flex',
+        alignItems: 'center',
+        height: '20%',
+        // border: '1px solid black',
+        borderBottom: '1px solid #DDDDDD',
+        padding: "20px",
+    },
+    doctordetailsvaluebox: {
+        display: 'flex',
+        alignItems: 'center',
+        height: '20%',
+        // border: '1px solid black',
+        borderBottom: '1px solid #DDDDDD',
+        padding: "20px",
+    },
+    doctordetailnametext: {
+        textTransform: 'uppercase',
+        fontFamily: `Times New Roman`,
+        fontWeight: '600',
+        fontSize: '20px',
+
+    },
+    doctordetailvaluetext: {
+        color: 'gray',
+        fontWeight: '400',
+        fontSize: '20px'
+    },
+
 
 
 
@@ -375,10 +430,10 @@ const Doctorprofilepage = ({ state, setState, setAutoLogout }) => {
         <Flex className={classes.outercontainer}>
             <Flex className={classes.firstcontainer}>
                 <Box className={classes.profileiconimage}>
-                    <Avatar size={200} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
+                    <Avatar size={160} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
                 </Box>
                 <Box className={classes.doctornamebox}>
-                    <Title order={1} className={classes.doctornametext}>Dr.Shobhit Gupta</Title>
+                    <Title order={1} className={classes.doctornametext}>Dr. Shobhit Gupta</Title>
                 </Box>
                 <Box className={classes.doctorspeciality}>
                     <Title order={5} className={classes.doctorspecialitytext}>Surgeon</Title>
@@ -386,15 +441,32 @@ const Doctorprofilepage = ({ state, setState, setAutoLogout }) => {
                 <Box className={classes.doctorspeciality}>
                     <Title order={5} className={classes.doctorspecialitytext}>Experience 16 years</Title>
                 </Box>
-                <Box className={classes.doctorspeciality}>
-                    <Title order={5} className={classes.clinicaddress}>Surgeon Center</Title>
+                <Box className={classes.clinicaddressbox}>
+                    <Title order={5} className={classes.clinicaddress}>Surgeon Center & sports Medicine , park Street , MD 12503</Title>
                 </Box>
                 <Flex className={classes.editbuttonflex}>
                     <Button fullWidth className={classes.editButton}>Edit Profile</Button>
                 </Flex>
 
             </Flex>
-            <Flex className={classes.secondcontainer}></Flex>
+            <Flex className={classes.secondcontainer}>
+                <Flex className={classes.doctordetailscontainer1}>
+                    <Box className={classes.doctordetailsnamebox}><Title order={4} className={classes.doctordetailnametext}>Date of Birth</Title></Box>
+                    <Box className={classes.doctordetailsnamebox}><Title order={4} className={classes.doctordetailnametext}>Address</Title></Box>
+                    <Box className={classes.doctordetailsnamebox}><Title order={4} className={classes.doctordetailnametext}>City</Title></Box>
+                    <Box className={classes.doctordetailsnamebox}><Title order={4} className={classes.doctordetailnametext}>Country</Title></Box>
+                    <Box className={classes.doctordetailsnamebox}><Title order={4} className={classes.doctordetailnametext}>Phone No</Title></Box>
+
+                </Flex>
+                <Flex className={classes.doctordetailscontainer2}>
+                    <Box className={classes.doctordetailsvaluebox}><Title order={4} className={classes.doctordetailvaluetext}>10 Jan 2002</Title></Box>
+                    <Box className={classes.doctordetailsvaluebox}><Title order={4} className={classes.doctordetailvaluetext}>Indira Nagar</Title></Box>
+                    <Box className={classes.doctordetailsvaluebox}><Title order={4} className={classes.doctordetailvaluetext}>Kanpur</Title></Box>
+                    <Box className={classes.doctordetailsvaluebox}><Title order={4} className={classes.doctordetailvaluetext}>India</Title></Box>
+                    <Box className={classes.doctordetailsvaluebox}><Title order={4} className={classes.doctordetailvaluetext}>9438673721</Title></Box>
+
+                </Flex>
+            </Flex>
         </Flex>
     );
 

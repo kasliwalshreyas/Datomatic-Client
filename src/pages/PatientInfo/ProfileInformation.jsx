@@ -37,6 +37,7 @@ const useStyles = createStyles((theme) => ({
 const ProfileInformation = ({ data }) => {
 
     const { classes } = useStyles();
+    console.log(data, 'data from ProfileInformation');
 
     // const tableHead = (
     //     <tr>
@@ -48,24 +49,23 @@ const ProfileInformation = ({ data }) => {
         <>
             <tr>
                 <th>Age</th>
-                <td>{data.age}</td>
+                <td>{data.age.description}</td>
             </tr>
             <tr>
                 <th>Gender</th>
-                <td>{data.gender}</td>
+                <td>{data.gender.description}</td>
             </tr>
             <tr>
                 <th>Height</th>
-                <td>{data.height}</td>
+                <td>{data.height.description}</td>
             </tr>
             <tr>
                 <th>Weight</th>
-
-                <td>{data.weight}</td>
+                <td>{data.weight.description}</td>
             </tr>
             <tr>
                 <th>Blood Group</th>
-                <td>{data.bloodGroup}</td>
+                <td>{data.bloodGroup.description}</td>
             </tr>
         </>
 
@@ -84,7 +84,7 @@ const ProfileInformation = ({ data }) => {
             >
                 <Avatar src={data.avatar} size={120} radius={120} mx="auto" />
                 <Text align="center" size="lg" weight={500} mt="md">
-                    {data.name}
+                    {data.name.description}
                 </Text>
                 {/* <Text align="center" color="dimmed" size="sm">
                     {data.age} | {data.gender}
@@ -96,11 +96,9 @@ const ProfileInformation = ({ data }) => {
             </Paper>
             <Paper
                 radius="md"
-                withBorder
-                p="lg"
                 className={classes.info}
             >
-                <PatientInformationDetails />
+                {/* <PatientInformationDetails data={data} /> */}
             </Paper>
         </Box>
     );

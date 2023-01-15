@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { keys } from '@mantine/utils';
 import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
     th: {
@@ -88,6 +89,14 @@ export function ReportTable({ data }) {
     const [sortBy, setSortBy] = useState(null);
     const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
+    data = data.map((item) => {
+        return {
+            ...item,
+            key: item._id,
+        }
+    });
+
+
 
     const setSorting = (field) => {
         const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -102,10 +111,12 @@ export function ReportTable({ data }) {
         setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
     };
 
-    const rows = sortedData.map((row) => (
-        <tr key={row.name}>
+    const rows = data.map((row) => (
+        <tr key={row._id}>
             <td>{row.name}</td>
-            <td>{<Button style={{ backgroundColor: '#805bd4' }}>View</Button>}</td>
+            <td>{<Button style={{ backgroundColor: '#805bd4' }} onClick={() => {
+                window.location.href = row.fileURL
+            }}>View</Button>}</td>
         </tr>
     ));
 
@@ -138,11 +149,11 @@ export function ReportTable({ data }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {rows.length > 0 ? (
+                    {data.length > 0 ? (
                         rows
                     ) : (
                         <tr>
-                            <td colSpan={Object.keys(data[0]).length}>
+                            <td>
                                 <Text weight={500} align="center">
                                     Nothing found
                                 </Text>

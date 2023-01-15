@@ -84,6 +84,8 @@ const PatientHome = ({ state, setState, setAutoLogout }) => {
       return;
     }
 
+    console.log(resData.patientInfo);
+
     if (!resData.patientInfo) {
       navigate("/patient/questionnaire");
     }
