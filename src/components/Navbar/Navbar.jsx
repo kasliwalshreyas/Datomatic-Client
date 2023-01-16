@@ -100,22 +100,6 @@ const Navbar = ({ state, logoutHandler }) => {
             <MenuItem onClick={logoutHandler}>Logout</MenuItem>
           </MenuList>
         </Menu>
-        {/* <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          
-          <Button
-            fontSize={"sm"}
-            fontWeight={400}
-            variant="primary"
-            onClick={logoutHandler}
-          >
-            Logout
-          </Button>
-        </Stack> */}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -388,7 +372,7 @@ const PHARMACY_NAV_ITEMS = [
   {
     label: "Share Code",
     href: "/pharmacy/scan",
-  }
+  },
 ];
 
 export default Navbar;

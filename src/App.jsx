@@ -30,7 +30,7 @@ import PharmacyHome from "./pages/Pharmacy/PharmacyHome";
 import PatientHome from "./pages/Patient/PatientHome";
 import PatientQuestionnaire from "./pages/Patient/PatientQuestionnaire";
 import DoctorQuestionnaire from "./pages/Doctor/DoctorQuestionnaire";
-import Doctorprofilepage from "./pages/ProfilePage/Doctorprofilepage"
+import Doctorprofilepage from "./pages/ProfilePage/Doctorprofilepage";
 const App = () => {
   const [state, setState] = useState({
     isAuth: false,
@@ -166,9 +166,11 @@ const App = () => {
               path="questionnaire"
               exact
               element={
-                <PatientQuestionnaire state={state}
+                <PatientQuestionnaire
+                  state={state}
                   setState={setState}
-                  setAutoLogout={setAutoLogout} />
+                  setAutoLogout={setAutoLogout}
+                />
               }
             />
             <Route path="*" element={<Navigate to={"home"} />} />
@@ -210,20 +212,24 @@ const App = () => {
               path="questionnaire"
               exact
               element={
-                <DoctorQuestionnaire state={state}
+                <DoctorQuestionnaire
+                  state={state}
                   setState={setState}
-                  setAutoLogout={setAutoLogout} />
+                  setAutoLogout={setAutoLogout}
+                />
               }
             />
             <Route
               path="create-prescription"
               exact
               element={
-                <CreatePrescription
-                  state={state}
-                  setState={setState}
-                  setAutoLogout={setAutoLogout}
-                />
+                <HomeWrapper state={state} logoutHandler={logoutHandler}>
+                  <CreatePrescription
+                    state={state}
+                    setState={setState}
+                    setAutoLogout={setAutoLogout}
+                  />
+                </HomeWrapper>
               }
             />
             <Route path="*" element={<Navigate to={"home"} />} />
@@ -281,7 +287,7 @@ const App = () => {
               </HomeWrapper>
             }
           />
-           <Route
+          <Route
             path="/doctorprofilepage"
             exact
             element={

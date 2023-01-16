@@ -29,8 +29,9 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[8] : "#f7fafc",
-    border: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[3]
-      }`,
+    border: `1px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[3]
+    }`,
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       flexDirection: "column-reverse",
       padding: theme.spacing.xl,
@@ -129,11 +130,10 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
       years * 12 + months * 30 + days,
       years * 12 + months * 30 + days * 24,
     ];
-  }
-
+  };
 
   const getInfoCleaned = (patientInfo) => {
-    const {
+    let {
       name,
       birth,
       address,
@@ -175,126 +175,118 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
       anyOther,
     } = patientInfo;
 
+    birth= new Date(birth).toString();
+
     const finalInformation = {
       name: {
-        "response": false,
-        "description": name
+        response: false,
+        description: name,
       },
       age: {
-        "response": false,
-        "description": getYearsRange(new Date(birth), new Date())[0]
+        response: false,
+        description: new Date().getFullYear() - new Date(birth).getFullYear(),
       },
       address: {
-        "response": false,
-        "description": address
+        response: false,
+        description: address,
       },
       city: {
-        "response": false,
-        "description": city
+        response: false,
+        description: city,
       },
       country: {
-        "response": false,
-        "description": country
+        response: false,
+        description: country,
       },
       pincode: {
-        "response": false,
-        "description": pincode
+        response: false,
+        description: pincode,
       },
       phone: {
-        "response": false,
-        "description": phone
+        response: false,
+        description: phone,
       },
       profession: {
-        "response": false,
-        "description": profession
+        response: false,
+        description: profession,
       },
       weight: {
-        "response": false,
-        "description": weight
+        response: false,
+        description: weight,
       },
       height: {
-        "response": false,
-        "description": height
+        response: false,
+        description: height,
       },
       bloodGroup: {
-        "response": false,
-        "description": bloodGroup
+        response: false,
+        description: bloodGroup,
       },
       allergies: {
-        "response": true,
-        "description": allergies
+        response: true,
+        description: allergies,
       },
       isPregnant: {
-        "response": true,
-        "description": isPregnant === "Yes" ? true : false,
+        response: true,
+        description: isPregnant === "Yes" ? true : false,
       },
-
-      // address,
-      // city,
-      // country,
-      // pincode,
-      // phone,
-      // profession,
-      // weight,
-      // height,
-      // bloodGroup,
-      // allergies,
-      // isPregnant: isPregnant === "Yes" ? true : false,
       smoking: {
-        "response": smoking !== "never-smoke" ? true : false,
-        "description": smoking
+        response: smoking !== "never-smoke" ? true : false,
+        description: smoking,
       },
       alcohol: {
-        "response": alcohol !== "never-alcohol" ? true : false,
-        "description": alcohol
+        response: alcohol !== "never-alcohol" ? true : false,
+        description: alcohol,
       },
       pastDrugs: {
-        "response": pastDrugs === "yes-pastDrugs" ? true : false,
-        "description": pastDrugsExplanation
+        response: pastDrugs === "yes-pastDrugs" ? true : false,
+        description: pastDrugsExplanation,
       },
       bloodPressure: {
-        "response": bloodPressure === "yes-bloodPressure" ? true : false,
-        "description": bloodPressure
+        response: bloodPressure === "yes-bloodPressure" ? true : false,
+        description: bloodPressure,
       },
       heartDiseases: {
-        "response": heartDiseases === "yes-heartDisease" ? true : false,
-        "description": heartDiseaseExplanation
+        response: heartDiseases === "yes-heartDisease" ? true : false,
+        description: heartDiseaseExplanation,
       },
       bloodDiseases: {
-        "response": bloodDiseases === "yes-bloodDiseases" ? true : false,
-        "description": bloodDiseasesExplanation
+        response: bloodDiseases === "yes-bloodDiseases" ? true : false,
+        description: bloodDiseasesExplanation,
       },
       diabetes: {
-        "response": diabetes === "yes-diabetes" ? true : false,
-        "description": diabetes + " " + insulin + " " + insulinName
+        response: diabetes === "yes-diabetes" ? true : false,
+        description: diabetes + " " + insulin + " " + insulinName,
       },
       asthma: {
-        "response": asthma === "yes-asthma" ? true : false,
-        "description": asthma + " " + asthmaPump + " " + asthmaPumpName
+        response: asthma === "yes-asthma" ? true : false,
+        description: asthma + " " + asthmaPump + " " + asthmaPumpName,
       },
       respiraroryDiseases: {
-        "response": respiraroryDiseases === "yes-respiraroryDiseases" ? true : false,
-        "description": respiraroryDiseasesExplanation
+        response:
+          respiraroryDiseases === "yes-respiraroryDiseases" ? true : false,
+        description: respiraroryDiseasesExplanation,
       },
       thyroidDiseases: {
-        "response": thyroidDiseases === "yes-thyroidDiseases" ? true : false,
-        "description": thyroidDiseasesExplanation
+        response: thyroidDiseases === "yes-thyroidDiseases" ? true : false,
+        description: thyroidDiseasesExplanation,
       },
       liverDiseases: {
-        "response": liverDiseases === "yes-liverDiseases" ? true : false,
-        "description": liverDiseasesExplanation
+        response: liverDiseases === "yes-liverDiseases" ? true : false,
+        description: liverDiseasesExplanation,
       },
       kidneyDiseases: {
-        "response": kidneyDiseases === "yes-kidneyDiseases" ? true : false,
-        "description": kidneyDiseasesExplanation
+        response: kidneyDiseases === "yes-kidneyDiseases" ? true : false,
+        description: kidneyDiseasesExplanation,
       },
       nervousSystemDiseases: {
-        "response": nervousSystemDiseases === "yes-nervousSystemDiseases" ? true : false,
-        "description": nervousSystemDiseasesExplanation
+        response:
+          nervousSystemDiseases === "yes-nervousSystemDiseases" ? true : false,
+        description: nervousSystemDiseasesExplanation,
       },
       anyOther: {
-        "response": anyOther === "yes-anyOther" ? true : false,
-        "description": anyOther
+        response: anyOther === "yes-anyOther" ? true : false,
+        description: anyOther,
       },
     };
     return finalInformation;
@@ -306,9 +298,7 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
       if (hh.hasErrors) {
         console.log("Errors");
         return current;
-      }
-      else {
-
+      } else {
         if (current === 2) {
           const patientInfo = form.values;
           const finalInformation = getInfoCleaned(patientInfo);
@@ -358,7 +348,7 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
     const patientInfo = form.values;
 
     savePatientInfo(patientInformation);
-    console.log(patientInformation, 'patientInformation');
+    console.log(patientInformation, "patientInformation");
 
     window.location.href = "/patient/home";
   };
@@ -394,6 +384,7 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
             <DatePicker
               placeholder="Pick date"
               label="Birth Date"
+              {...form.getInputProps("birth")}
               withAsterisk
             />
             <Textarea
@@ -664,12 +655,12 @@ const PatientQuestionnaire = ({ state, setState, setAutoLogout }) => {
             </Radio.Group>
             {form.values.nervousSystemDiseases ===
               "yes-nervousSystemDiseases" && (
-                <Textarea
-                  mt="md"
-                  placeholder="Please write what exactly:"
-                  {...form.getInputProps("nervousSystemDiseasesExplanation")}
-                />
-              )}
+              <Textarea
+                mt="md"
+                placeholder="Please write what exactly:"
+                {...form.getInputProps("nervousSystemDiseasesExplanation")}
+              />
+            )}
           </Stepper.Step>
 
           <Stepper.Step
