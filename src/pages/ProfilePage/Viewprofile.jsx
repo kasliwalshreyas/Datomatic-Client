@@ -304,10 +304,9 @@ const Viewprofile = ({ state, setState, setAutoLogout }) => {
   const { classes, theme } = useStyles();
   const [date, setDate] = useState(new Date(2021, 9, 24));
   const [patientInfo, setPatientInfo] = useState(null);
-  const phoneNumber = "9657565281";
 
   const getPatientInfo = async () => {
-    const res = await fetch(`${BACKEND_URL}/doctor/patient/${phoneNumber}`, {
+    const res = await fetch(`${BACKEND_URL}/data/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -332,8 +331,8 @@ const Viewprofile = ({ state, setState, setAutoLogout }) => {
       return;
     }
 
-    setPatientInfo(resData.patientInfo);
-    console.log(resData.patientInfo);
+    setPatientInfo(resData.user.patientInfo);
+    console.log(resData);
   };
 
   return (

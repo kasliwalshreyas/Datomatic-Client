@@ -21,14 +21,16 @@ import {
 import PatientInformationDetails from "./PatientInformationDetails";
 
 const ProfileInfo = ({ data }) => {
-  const keys = Object.keys(data);
+  // const keys = Object.keys(data);
   console.log(data, "data from ProfileInfo");
-  const { personalInformation, basicMedicalInformation, detailMedicalInformation } = data;
+  const {
+    personalInformation,
+    basicMedicalInformation,
+    detailMedicalInformation,
+  } = data;
   console.log(personalInformation, "personalInformation");
   console.log(basicMedicalInformation, "basicMedicalInformation");
   console.log(detailMedicalInformation, "detailMedicalInformation");
-
-
 
   return (
     <Flex p={6}>
@@ -105,16 +107,19 @@ const ProfileInfo = ({ data }) => {
         <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
           <Center height="50px">
             <Badge mx={8}>Raised Blood Pressure</Badge>
-            <Badge mx={8}>{basicMedicalInformation.bloodPressure.description}</Badge>
+            <Badge mx={8}>
+              {basicMedicalInformation.bloodPressure.description}
+            </Badge>
           </Center>
         </Stack>
         <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
           <Center height="50px">
             <Badge mx={8}>Is Pregnant</Badge>
-            <Badge mx={8}>{basicMedicalInformation.isPregnant.description}</Badge>
+            <Badge mx={8}>
+              {basicMedicalInformation.isPregnant.description}
+            </Badge>
           </Center>
         </Stack>
-
       </Box>
       <Box
         style={{ overflowY: "scroll" }}
