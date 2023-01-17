@@ -1,9 +1,10 @@
 import { Flex, Card, createStyles, Avatar, Box, Title, Button, Group, Paper, Text } from '@mantine/core';
 import { IconDroplet, IconRuler3, IconWeight } from '@tabler/icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProfileStatsCard from './ProfileStatsCard';
 import Extraprofiledetails from './Extraprofiledetails';
-
+import ProfileInfo from '../PatientInfo/ProfileInfo';
+const BACKEND_URL = import.meta.env.VITE_SERVER_URL;
 
 const data = [
   { icon: IconDroplet, label: 'Blood Group' },
@@ -264,114 +265,146 @@ const useStyles = createStyles((theme) => ({
     width: '50%',
     height: '100%',
     // borderRight: '1px solid black',
-    
+
     flexDirection: 'column',
     marginRight: '30px',
-    
+
   },
   Extradetailsvalue: {
     width: '50%',
     height: '100%',
     // border: '1px solid black',
-    flexDirection:'column',
+    flexDirection: 'column',
   },
   Extradetailsnamebox: {
     height: '20%',
     borderBottom: '1px solid gray',
-    display:'flex',
+    display: 'flex',
     // justifyContent: 'center',
-    alignItems:'center',
-    
+    alignItems: 'center',
+
     // border: '1px solid black',
   },
   Extradetailsvaluebox: {
     height: '20%',
     borderBottom: '1px solid gray',
-    display:'flex',
+    display: 'flex',
     // justifyContent: 'center',
-    alignItems:'center',
+    alignItems: 'center',
     // border: '1px solid black',
   },
-
-
-
-
-
 }));
 
 
 const Viewprofile = ({ state, setState, setAutoLogout }) => {
 
+  useEffect(() => {
+    getPatientInfo();
+  }, []);
   const { classes, theme } = useStyles();
   const [date, setDate] = useState(new Date(2021, 9, 24));
+  const [patientInfo, setPatientInfo] = useState(null);
+  const phoneNumber = "9657565281";
 
+  const getPatientInfo = async () => {
+    const res = await fetch(`${BACKEND_URL}/doctor/patient/${phoneNumber}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + state.token,
+      },
+    });
+
+    const resData = await res.json();
+
+    if (res.status === 401) {
+      console.log(resData.message || "Authorization failed");
+      return;
+    }
+
+    if (res.status === 422) {
+      console.log(resData.message || "Validation failed");
+      return;
+    }
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log(resData.message || "Fetching name failed.");
+      return;
+    }
+
+    setPatientInfo(resData.patientInfo);
+    console.log(resData.patientInfo);
+  };
 
   return (
-    <Flex sx={{ flexDirection: 'column', padding: '10px', width: '100vw' }}>
-      <Flex w={'100vw'}>
-        <Flex size={'100vw'} w={'50%'} className={classes.borderFlex}>
-          <Flex className={classes.borderFlex1} w={'30%'} >
-            {/* <Card withBorder radius="md" className={classes.card}> */}
-            <Avatar size={120} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
-            {/* </Card> */}
-            <Title order={3} mt={'15px'} mb={'20px'}>Shreyas Kasliwal</Title>
-            <Button fullWidth className={classes.editButton}>Edit Profile</Button>
-          </Flex>
+    // <Flex sx={{ flexDirection: 'column', padding: '10px', width: '100vw' }}>
+    //   <Flex w={'100vw'}>
+    //     <Flex size={'100vw'} w={'50%'} className={classes.borderFlex}>
+    //       <Flex className={classes.borderFlex1} w={'30%'} >
+    //         {/* <Card withBorder radius="md" className={classes.card}> */}
+    //         <Avatar size={120} radius={120} mx="auto" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9" alt="it's me" />
+    //         {/* </Card> */}
+    //         <Title order={3} mt={'15px'} mb={'20px'}>Shreyas Kasliwal</Title>
+    //         <Button fullWidth className={classes.editButton}>Edit Profile</Button>
+    //       </Flex>
 
-          <Flex className={classes.borderFlex2} w={'70%'} >
+    //       <Flex className={classes.borderFlex2} w={'70%'} >
 
 
-            <Flex className={classes.infocontainer}>
-              <Box className={classes.infocontentbox} ml={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Age</Title>
-                <Title order={5} className={classes.infoshorttext} >21</Title>
+    //         <Flex className={classes.infocontainer}>
+    //           <Box className={classes.infocontentbox} ml={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Age</Title>
+    //             <Title order={5} className={classes.infoshorttext} >21</Title>
 
-              </Box>
-              <Box className={classes.infocontentbox} ml={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Gender</Title>
-                <Title order={5} className={classes.infoshorttext} >Male</Title>
-              </Box>
-              <Box className={classes.infocontentbox} ml={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Phoneno.</Title>
-                <Title order={5} className={classes.infoshorttext} >9796954838</Title>
-              </Box>
-            </Flex>
+    //           </Box>
+    //           <Box className={classes.infocontentbox} ml={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Gender</Title>
+    //             <Title order={5} className={classes.infoshorttext} >Male</Title>
+    //           </Box>
+    //           <Box className={classes.infocontentbox} ml={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Phoneno.</Title>
+    //             <Title order={5} className={classes.infoshorttext} >9796954838</Title>
+    //           </Box>
+    //         </Flex>
 
-            <Flex className={classes.infocontainer}>
-              <Box className={classes.infocontentbox} mr={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Address</Title>
-                <Title order={5} className={classes.infoshorttext}>Uhaaaaaa's village</Title>
-              </Box>
-              <Box className={classes.infocontentbox} mr={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Name</Title>
-                <Title order={5} className={classes.infoshorttext}>Vital</Title>
-              </Box>
-              <Box className={classes.infocontentbox} mr={'20px'}>
-                <Title order={4} className={classes.infolongtext}>Name</Title>
-                <Title order={5} className={classes.infoshorttext}>Vital</Title>
-              </Box>
-            </Flex>
+    //         <Flex className={classes.infocontainer}>
+    //           <Box className={classes.infocontentbox} mr={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Address</Title>
+    //             <Title order={5} className={classes.infoshorttext}>Uhaaaaaa's village</Title>
+    //           </Box>
+    //           <Box className={classes.infocontentbox} mr={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Name</Title>
+    //             <Title order={5} className={classes.infoshorttext}>Vital</Title>
+    //           </Box>
+    //           <Box className={classes.infocontentbox} mr={'20px'}>
+    //             <Title order={4} className={classes.infolongtext}>Name</Title>
+    //             <Title order={5} className={classes.infoshorttext}>Vital</Title>
+    //           </Box>
+    //         </Flex>
 
-            {/* //Shobhit's code */}
-          </Flex>
+    //         {/* //Shobhit's code */}
+    //       </Flex>
 
-        </Flex>
-        <Flex className={classes.statsFlex} >
-          <Group sx={{ flex: 1 }} m={'10px'}>
-            <ProfileStatsCard stat={data[0]} classes={classes} />
-            <ProfileStatsCard stat={data[1]} classes={classes} />
-          </Group>
-          <Group sx={{ flex: 1 }} m={'10px'}>
-            <ProfileStatsCard stat={data[2]} classes={classes} />
-            <ProfileStatsCard stat={data[3]} classes={classes} />
-          </Group>
-        </Flex>
-      </Flex>
+    //     </Flex>
+    //     <Flex className={classes.statsFlex} >
+    //       <Group sx={{ flex: 1 }} m={'10px'}>
+    //         <ProfileStatsCard stat={data[0]} classes={classes} />
+    //         <ProfileStatsCard stat={data[1]} classes={classes} />
+    //       </Group>
+    //       <Group sx={{ flex: 1 }} m={'10px'}>
+    //         <ProfileStatsCard stat={data[2]} classes={classes} />
+    //         <ProfileStatsCard stat={data[3]} classes={classes} />
+    //       </Group>
+    //     </Flex>
+    //   </Flex>
 
-      <Extraprofiledetails classes={classes}>
-      </Extraprofiledetails>
+    //   <Extraprofiledetails classes={classes}>
+    //   </Extraprofiledetails>
 
-    </Flex>
+    // </Flex>
+    <>
+      {patientInfo && (<ProfileInfo data={patientInfo} />)}
+    </>
   );
 }
 

@@ -18,9 +18,17 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
+import PatientInformationDetails from "./PatientInformationDetails";
 
 const ProfileInfo = ({ data }) => {
   const keys = Object.keys(data);
+  console.log(data, "data from ProfileInfo");
+  const { personalInformation, basicMedicalInformation, detailMedicalInformation } = data;
+  console.log(personalInformation, "personalInformation");
+  console.log(basicMedicalInformation, "basicMedicalInformation");
+  console.log(detailMedicalInformation, "detailMedicalInformation");
+
+
 
   return (
     <Flex p={6}>
@@ -55,33 +63,58 @@ const ProfileInfo = ({ data }) => {
           }}
         />
         <Heading fontSize={"2xl"} fontFamily={"body"}>
-          {data.name.description}
+          {personalInformation.name.description}
         </Heading>
 
         <Stack align={"center"} justify={"center"} direction={"row"} mt={6}>
           <Center height="50px">
             <Badge mx={14}>Age</Badge>
-            <Badge mx={14}>{data.age.description}</Badge>
+            <Badge mx={14}>{personalInformation.age.description}</Badge>
           </Center>
         </Stack>
         <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
           <Center height="50px">
             <Badge mx={12}>Height</Badge>
-            <Badge mx={12}>{data.height.description}</Badge>
+            <Badge mx={12}>{personalInformation.height.description}</Badge>
           </Center>
         </Stack>
         <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
           <Center height="50px">
             <Badge mx={12}>Weight</Badge>
-            <Badge mx={12}>{data.weight.description}</Badge>
+            <Badge mx={12}>{personalInformation.weight.description}</Badge>
           </Center>
         </Stack>
         <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
           <Center height="50px">
             <Badge mx={8}>Blood Group</Badge>
-            <Badge mx={8}>{data.bloodGroup.description}</Badge>
+            <Badge mx={8}>{personalInformation.bloodGroup.description}</Badge>
           </Center>
         </Stack>
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
+          <Center height="50px">
+            <Badge mx={8}>Smoking</Badge>
+            <Badge mx={8}>{basicMedicalInformation.smoking.description}</Badge>
+          </Center>
+        </Stack>
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
+          <Center height="50px">
+            <Badge mx={8}>Alcohol</Badge>
+            <Badge mx={8}>{basicMedicalInformation.alcohol.description}</Badge>
+          </Center>
+        </Stack>
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
+          <Center height="50px">
+            <Badge mx={8}>Raised Blood Pressure</Badge>
+            <Badge mx={8}>{basicMedicalInformation.bloodPressure.description}</Badge>
+          </Center>
+        </Stack>
+        <Stack align={"center"} justify={"center"} direction={"row"} mt={2}>
+          <Center height="50px">
+            <Badge mx={8}>Is Pregnant</Badge>
+            <Badge mx={8}>{basicMedicalInformation.isPregnant.description}</Badge>
+          </Center>
+        </Stack>
+
       </Box>
       <Box
         style={{ overflowY: "scroll" }}
@@ -94,29 +127,7 @@ const ProfileInfo = ({ data }) => {
         ml={6}
         textAlign={"center"}
       >
-        <Accordion defaultIndex={[0]} allowMultiple>
-          {keys.map((item, index) => {
-            if (data[item].description&&item!=="name"&&item!=="age"&&item!=="height"&&item!=="weight"&&item!=="bloodGroup") {
-              return (
-                <AccordionItem key={index} px={2} py={4} border={"none"}>
-                  <h2>
-                    <AccordionButton>
-                      <Box as="span" flex="1" textAlign="left" fontSize={"l"}>
-                        {item.charAt(0).toUpperCase() + item.slice(1)}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    {data[item].description}
-                  </AccordionPanel>
-                </AccordionItem>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </Accordion>
+        <PatientInformationDetails data={detailMedicalInformation} />
       </Box>
     </Flex>
   );

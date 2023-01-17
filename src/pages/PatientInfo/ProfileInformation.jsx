@@ -40,24 +40,44 @@ const useStyles = createStyles((theme) => ({
 const ProfileInformation = ({ data }) => {
   const { classes } = useStyles();
   console.log(data, "data from ProfileInformation");
+  const { personalInformation, basicMedicalInformation, detailMedicalInformation } = data;
+  console.log(personalInformation, "personalInformation");
+  console.log(basicMedicalInformation, "basicMedicalInformation");
+  console.log(detailMedicalInformation, "detailMedicalInformation");
 
   const tableData = (
     <>
       <tr>
         <th>Age</th>
-        <td>{data.age.description}</td>
+        <td>{personalInformation.age.description}</td>
       </tr>
       <tr>
         <th>Height</th>
-        <td>{data.height.description}</td>
+        <td>{personalInformation.height.description}</td>
       </tr>
       <tr>
         <th>Weight</th>
-        <td>{data.weight.description}</td>
+        <td>{personalInformation.weight.description}</td>
       </tr>
       <tr>
         <th>Blood Group</th>
-        <td>{data.bloodGroup.description}</td>
+        <td>{personalInformation.bloodGroup.description}</td>
+      </tr>
+      <tr>
+        <th>Pregnant</th>
+        <td>{basicMedicalInformation.isPregnant.description}</td>
+      </tr>
+      <tr>
+        <th>Smoker</th>
+        <td>{basicMedicalInformation.smoking.description}</td>
+      </tr>
+      <tr>
+        <th>Alcoholic</th>
+        <td>{basicMedicalInformation.alcohol.description}</td>
+      </tr>
+      <tr>
+        <th>Raised Blood Pressure</th>
+        <td>{basicMedicalInformation.bloodPressure.description}</td>
       </tr>
     </>
   );
@@ -65,20 +85,17 @@ const ProfileInformation = ({ data }) => {
   return (
     <Box className={classes.body}>
       <Paper radius="md" withBorder p="lg" className={classes.profileCard}>
-        <Avatar src={data.avatar} size={120} radius={120} mx="auto" />
+        <Avatar src={personalInformation.avatar} size={120} radius={120} mx="auto" />
         <Text align="center" size="lg" weight={500} mt="md">
-          {data.name.description}
+          {personalInformation.name.description}
         </Text>
-        {/* <Text align="center" color="dimmed" size="sm">
-                    {data.age} | {data.gender}
-                </Text> */}
-
         <Table className={classes.tableStyle}>
           <tbody>{tableData}</tbody>
         </Table>
+
       </Paper>
       <Paper radius="md" className={classes.info}>
-        <PatientInformationDetails data={data} />
+        <PatientInformationDetails data={detailMedicalInformation} basicMedicalInformation={basicMedicalInformation} />
       </Paper>
     </Box>
   );

@@ -10,13 +10,15 @@ import { chakra, Button, Stack } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import Navbar from "../Navbar/Navbar";
 import { NewNavbar } from "../Navbar/NewNavbar";
+import AnotherNewNavbar from "../Navbar/AnotherNewNavbar";
 
 const HomeWrapper = ({ state, logoutHandler, children }) => {
   return (
     <Fragment>
       <chakra.header>
         {/* <Navbar state={state} logoutHandler={logoutHandler} /> */}
-        <NewNavbar state={state} logoutHandler={logoutHandler} />
+        {/* <NewNavbar state={state} logoutHandler={logoutHandler} /> */}
+        <AnotherNewNavbar state={state} logoutHandler={logoutHandler} />
         {state.userType === "doctor" && (
           <Stack
             direction="row"

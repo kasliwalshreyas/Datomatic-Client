@@ -1,56 +1,6 @@
 import { IconPlus } from '@tabler/icons';
 import { Group, Avatar, Text, Accordion } from '@mantine/core';
 
-const charactersList = [
-    {
-        id: 'bender',
-        image: 'https://img.icons8.com/clouds/256/000000/futurama-bender.png',
-        label: 'Bender Bending Rodríguez',
-        description: 'Fascinated with cooking, though has no sense of taste',
-        content: "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-    },
-
-    {
-        id: 'carol',
-        image: 'https://img.icons8.com/clouds/256/000000/futurama-mom.png',
-        label: 'Carol Miller',
-        description: 'No',
-        content: "Carol Miller (born January 30, 2880), better known as Mom, is the evil chief executive officer and shareholder of 99.7% of Momcorp, one of the largest industrial conglomerates in the universe and the source of most of Earth's robots. She is also one of the main antagonists of the Futurama series.",
-    },
-
-    {
-        id: 'homer',
-        image: 'https://img.icons8.com/clouds/256/000000/homer-simpson.png',
-        label: 'Homer Simpson',
-        description: 'Overweight, lazy, and often ignorant',
-        content: 'Homer Jay Simpson (born May 12) is the main protagonist and one of the five main characters of The Simpsons series(or show). He is the spouse of Marge Simpson and father of Bart, Lisa and Maggie Simpson.',
-    },
-    {
-        id: 'bender0',
-        image: 'https://img.icons8.com/clouds/256/000000/futurama-bender.png',
-        label: 'Diabetes',
-        description: 'No',
-        content: "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-    },
-    {
-        id: 'bender2',
-        image: 'https://img.icons8.com/clouds/256/000000/futurama-bender.png',
-        label: 'Hypertension',
-        description: 'Yes',
-        content: "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-    },
-    {
-        id: 'bender3',
-        image: 'https://img.icons8.com/clouds/256/000000/futurama-bender.png',
-        label: 'HypertensionExplanation',
-        description: 'No',
-        content: "Bender Bending Rodríguez, (born September 4, 2996), designated Bending Unit 22, and commonly known as Bender, is a bending unit created by a division of MomCorp in Tijuana, Mexico, and his serial number is 2716057. His mugshot id number is 01473. He is Fry's best friend.",
-    }
-
-];
-
-
-
 function AccordionLabel({ response, value, item }) {
     // const { response, value } = a[0];
     // const item = a[1];
@@ -59,7 +9,7 @@ function AccordionLabel({ response, value, item }) {
         <Group noWrap>
             {/* <Avatar src={image} radius="xl" size="lg" /> */}
             <div>
-                <Text>{item}</Text>
+                <Text>{conversion(item)}</Text>
                 <Text size="sm" color="dimmed" weight={400}>
                     {response ? 'Yes' : 'No'}
                 </Text>
@@ -68,30 +18,49 @@ function AccordionLabel({ response, value, item }) {
     );
 }
 
+const conversion = (text) => {
+    const result = text.replace(/([A-Z])/g, " $1");
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    console.log(finalResult);
+    return finalResult;
+};
 
-const PatientInformationDetails = ({ data }) => {
+
+const PatientInformationDetails = ({ data, basicMedicalInformation }) => {
 
     console.log(data, 'from patient info details');
+    console.log(basicMedicalInformation, 'from patient info details');
 
     const keys = Object.keys(data);
     const values = Object.values(data);
-    // console.log(keys);
+
+    // const basicKeys = Object.keys(basicMedicalInformation);
+    // const basicValues = Object.values(basicMedicalInformation);
+
+    // const basicItems = basicKeys.map((item) => (
+    //     <Accordion.Item value={item} key={item}>
+    //         <Accordion.Control>
+    //             <AccordionLabel response={basicMedicalInformation[item].response} value={basicMedicalInformation[item].value} item={item} />
+    //         </Accordion.Control>
+    //     </Accordion.Item>
+    // ));
+
+
     const items = keys.map((item) => (
-        data[item].response ? (
-            <Accordion.Item value={item} key={item}>
-                <Accordion.Control>
-                    {/* <AccordionLabel {...data[item]} /> */}
-                    <AccordionLabel response={data[item].response} value={data[item].value} item={item} />
-                </Accordion.Control>
-                {
-                    data[item].response && (
-                        <Accordion.Panel>
-                            <Text size="sm">{data[item].description}</Text>
-                        </Accordion.Panel>
-                    )
-                }
-            </Accordion.Item>
-        ) : null
+
+        <Accordion.Item value={item} key={item}>
+            <Accordion.Control>
+                {/* <AccordionLabel {...data[item]} /> */}
+                <AccordionLabel response={data[item].response} value={data[item].value} item={item} />
+            </Accordion.Control>
+            {
+                data[item].response && (
+                    <Accordion.Panel>
+                        <Text size="sm">{data[item].description}</Text>
+                    </Accordion.Panel>
+                )
+            }
+        </Accordion.Item>
     ));
     // console.log(items);
     return (
@@ -116,6 +85,7 @@ const PatientInformationDetails = ({ data }) => {
                 </Accordion.Item>
             </Accordion> */}
             <Accordion chevronPosition="right" disableChevronRotation variant="contained">
+                {/* {basicItems} */}
                 {items}
             </Accordion>
         </>
