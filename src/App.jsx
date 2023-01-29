@@ -31,6 +31,7 @@ import PatientHome from "./pages/Patient/PatientHome";
 import PatientQuestionnaire from "./pages/Patient/PatientQuestionnaire";
 import DoctorQuestionnaire from "./pages/Doctor/DoctorQuestionnaire";
 import Doctorprofilepage from "./pages/ProfilePage/Doctorprofilepage";
+import DoctorProfile from "./pages/ProfilePage/DoctorProfile";
 const App = () => {
   const [state, setState] = useState({
     isAuth: false,
@@ -292,7 +293,7 @@ const App = () => {
             exact
             element={
               <HomeWrapper state={state} logoutHandler={logoutHandler}>
-                <Doctorprofilepage
+                <DoctorProfile
                   state={state}
                   setState={setState}
                   setAutoLogout={setAutoLogout}
