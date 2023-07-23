@@ -1,6 +1,6 @@
 # Datomatic-client
 
-[Live Website](https://datomatic.netlify.app/){:target="_blank"} -> Currently Down
+[Live Website](https://datomatic.netlify.app/) -> Currently Down
 
 * Live website available at : ```https://datomatic.netlify.app/```
 
