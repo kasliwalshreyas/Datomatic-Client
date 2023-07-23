@@ -1,5 +1,7 @@
 # Datomatic-client
 
+[Live Website](https://datomatic.netlify.app/)
+
 * Live website available at : ```https://datomatic.netlify.app/```
 
 * Server available at : ```https://datomatic-server-production-b281.up.railway.app/```
