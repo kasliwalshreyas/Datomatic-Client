@@ -6,6 +6,10 @@
 
 * Server available at : ```https://datomatic-server-production-b281.up.railway.app/```
 
+## Demo
+
+![dome](./public/websiteDatomaticGIF.gif)
+
 ## To run on local system :
 
 ### Server
